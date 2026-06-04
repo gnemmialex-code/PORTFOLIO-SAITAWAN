@@ -8,56 +8,55 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ==============================================
+    /* ============================================
        RESET & VARIABLES
-    =============================================== */
+    ============================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg:   #060606;
-      --card: #0f0f0f;
+      --card: #0d0d0d;
       --text: #f0f0f0;
       --dim:  #555;
-      --gap:  9px;
+      --gap:  10px;
 
-      --t1: #a8d5f5;  /* Ambiance Hivernal — Bleu glacé  */
-      --t2: #f4a7b9;  /* Douce Mélodie    — Rose doux    */
-      --t3: #fdd891;  /* Interview        — Or chaud     */
-      --t4: #64d8cb;  /* Lac & Mouvement  — Turquoise    */
-      --t5: #ffab76;  /* L'Image Action   — Orange       */
-      --t6: #8bd48e;  /* Nature Mouvement — Vert         */
-      --t7: #f47a72;  /* Vitesse          — Rouge vif    */
+      --t1: #a8d5f5;
+      --t2: #f4a7b9;
+      --t3: #fdd891;
+      --t4: #64d8cb;
+      --t5: #ffab76;
+      --t6: #8bd48e;
+      --t7: #f47a72;
     }
 
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body  { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; cursor: none; }
 
-    /* ==============================================
+    /* ============================================
        CURSEUR
-    =============================================== */
+    ============================================ */
     .cur, .cur-ring {
       position: fixed; top: 0; left: 0; border-radius: 50%;
       pointer-events: none; z-index: 9999; mix-blend-mode: difference;
     }
-    .cur      { width: 10px; height: 10px; background: white; transition: transform .15s ease; }
-    .cur-ring { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.4); transition: transform .35s ease, width .3s, height .3s; }
+    .cur      { width: 10px; height: 10px; background: white; transition: transform .12s ease; }
+    .cur-ring { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.4); transition: transform .32s ease, width .25s, height .25s; }
     .cur.big      { transform: scale(3.5); }
-    .cur-ring.big { width: 55px; height: 55px; }
+    .cur-ring.big { width: 56px; height: 56px; }
 
-    /* ==============================================
-       NAVIGATION
-    =============================================== */
+    /* ============================================
+       NAV
+    ============================================ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       padding: 1.3rem 2.5rem;
       display: flex; justify-content: space-between; align-items: center;
-      background: linear-gradient(to bottom, rgba(6,6,6,.95), transparent);
+      background: linear-gradient(to bottom, rgba(6,6,6,.92), transparent);
       backdrop-filter: blur(6px);
     }
     .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 700;
-      letter-spacing: .25em; text-transform: uppercase;
+      font-size: 1.3rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase;
       color: white; text-decoration: none;
     }
     .nav-links { display: flex; gap: 1.8rem; list-style: none; }
@@ -68,9 +67,9 @@
     }
     .nav-links a:hover { color: white; }
 
-    /* ==============================================
+    /* ============================================
        DOTS LATÉRAUX
-    =============================================== */
+    ============================================ */
     .side-nav {
       position: fixed; right: 1.8rem; top: 50%;
       transform: translateY(-50%); z-index: 500;
@@ -86,26 +85,26 @@
       position: absolute; right: calc(100% + 12px); top: 50%;
       transform: translateY(-50%);
       font-size: .62rem; letter-spacing: .06em; white-space: nowrap;
-      color: white; background: rgba(0,0,0,.75);
+      color: white; background: rgba(0,0,0,.8);
       padding: .2rem .55rem; border-radius: 3px;
       opacity: 0; pointer-events: none; transition: opacity .25s;
     }
     .dot:hover::before, .dot.on::before { opacity: 1; }
     .dot:hover, .dot.on { background: white; border-color: white; transform: scale(1.5); }
 
-    /* ==============================================
+    /* ============================================
        LIGHTBOX
-    =============================================== */
+    ============================================ */
     #lb {
       position: fixed; inset: 0; z-index: 900;
-      background: rgba(0,0,0,.95); backdrop-filter: blur(12px);
+      background: rgba(0,0,0,.96); backdrop-filter: blur(14px);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none; transition: opacity .3s;
     }
     #lb.open { opacity: 1; pointer-events: all; }
     #lb img {
-      max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 3px;
-      transform: scale(.95); transition: transform .3s;
+      max-width: 92vw; max-height: 92vh; object-fit: contain; border-radius: 3px;
+      transform: scale(.94); transition: transform .35s cubic-bezier(.25,.46,.45,.94);
     }
     #lb.open img { transform: scale(1); }
     #lb-close {
@@ -116,75 +115,85 @@
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: background .2s;
     }
-    #lb-close:hover { background: rgba(255,255,255,.18); }
+    #lb-close:hover { background: rgba(255,255,255,.2); }
 
-    /* ==============================================
-       HERO
-    =============================================== */
+    /* ============================================
+       HERO — photo de fond verticale
+    ============================================ */
     #hero {
-      height: 100vh;
+      height: 100vh; position: relative; overflow: hidden;
       display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      text-align: center; position: relative; overflow: hidden;
+      justify-content: flex-end; align-items: center;
+      padding-bottom: 5rem;
     }
-    .hero-bg {
+
+    /* Photo de fond (IMG_3620.JPG) */
+    .hero-img {
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 55% 40%, #0d1622 0%, #060606 65%);
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      animation: kenBurns 22s ease-in-out infinite alternate;
     }
-    .orb {
-      position: absolute; border-radius: 50%;
-      filter: blur(100px); pointer-events: none;
-      animation: floatOrb 11s ease-in-out infinite;
+    @keyframes kenBurns {
+      0%   { transform: scale(1)    translate(0, 0); }
+      100% { transform: scale(1.08) translate(-2%, 3%); }
     }
-    .o1 { width: 480px; height: 480px; background: rgba(168,213,245,.07); top: -8%;  left: -8%;  animation-delay: 0s; }
-    .o2 { width: 340px; height: 340px; background: rgba(244,167,185,.06); top: 42%;  right: 4%;  animation-delay: 3.5s; }
-    .o3 { width: 260px; height: 260px; background: rgba(253,216,145,.05); bottom: 4%; left: 38%; animation-delay: 7s; }
-    @keyframes floatOrb {
-      0%,100% { transform: translateY(0) scale(1); }
-      50%      { transform: translateY(-38px) scale(1.07); }
+
+    /* Dégradé pour lisibilité du texte */
+    .hero-veil {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,.25) 0%,
+        rgba(0,0,0,.1)  30%,
+        rgba(0,0,0,.55) 65%,
+        rgba(6,6,6,1)  100%
+      );
     }
-    .hero-inner { position: relative; z-index: 2; padding: 0 1rem; }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 1.5rem;
+      animation: fadeUp .9s ease .3s both;
+    }
     .hero-eye {
       font-size: .7rem; letter-spacing: .45em; text-transform: uppercase;
-      color: var(--dim); margin-bottom: 1.8rem;
-      animation: fadeUp .9s ease .3s both;
+      color: rgba(255,255,255,.5); margin-bottom: 1rem;
     }
     .hero-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(4.5rem, 13vw, 10.5rem);
+      font-size: clamp(4rem, 12vw, 9rem);
       font-weight: 900; line-height: .9; letter-spacing: -.03em;
-      margin-bottom: 1.8rem; animation: fadeUp .9s ease .5s both;
+      margin-bottom: 1.2rem;
     }
     .hero-title em {
-      display: block; font-style: italic; font-weight: 400; font-size: .82em;
-      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.22);
+      display: block; font-style: italic; font-weight: 400; font-size: .8em;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.35);
     }
     .hero-sub {
-      font-size: clamp(.82rem, 1.6vw, .98rem); color: var(--dim);
-      max-width: 460px; line-height: 1.8; animation: fadeUp .9s ease .7s both;
+      font-size: clamp(.82rem, 1.5vw, .95rem); color: rgba(255,255,255,.5);
+      max-width: 440px; margin: 0 auto; line-height: 1.8;
     }
     .pills {
-      margin-top: 2.2rem;
-      display: flex; flex-wrap: wrap; gap: .55rem; justify-content: center;
-      animation: fadeUp .9s ease .9s both;
+      margin-top: 1.8rem;
+      display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center;
     }
     .pill {
-      padding: .3rem .85rem; border-radius: 100px;
-      border: 1px solid rgba(255,255,255,.1);
-      font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+      padding: .28rem .8rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.15);
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
       color: rgba(255,255,255,.4); text-decoration: none; transition: all .3s;
     }
-    .pill:hover { border-color: rgba(255,255,255,.4); color: white; }
+    .pill:hover { border-color: rgba(255,255,255,.5); color: white; }
+
     .hero-scroll {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: .5rem;
-      color: rgba(255,255,255,.2); font-size: .62rem;
-      letter-spacing: .2em; text-transform: uppercase;
-      animation: fadeUp .9s ease 1.2s both;
+      color: rgba(255,255,255,.25); font-size: .6rem;
+      letter-spacing: .2em; text-transform: uppercase; z-index: 2;
+      animation: fadeUp .9s ease 1s both;
     }
-    .scroll-bar {
-      width: 1px; height: 48px; background: rgba(255,255,255,.12); overflow: hidden;
-    }
+    .scroll-bar { width: 1px; height: 44px; background: rgba(255,255,255,.12); overflow: hidden; }
     .scroll-bar::after {
       content: ''; display: block; width: 100%; height: 100%;
       background: rgba(255,255,255,.5);
@@ -193,100 +202,145 @@
     @keyframes scrollDown { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ==============================================
+    /* ============================================
        SÉPARATEUR
-    =============================================== */
+    ============================================ */
     .sep {
       height: 1px;
       background: linear-gradient(to right, transparent, rgba(255,255,255,.06) 30%, rgba(255,255,255,.06) 70%, transparent);
     }
 
-    /* ==============================================
+    /* ============================================
        SECTION THÈME
-    =============================================== */
+    ============================================ */
     .ts { padding: 7rem 2.5rem 5rem; position: relative; overflow: hidden; }
     .ts::before {
       content: ''; position: absolute;
-      width: 700px; height: 700px; border-radius: 50%;
-      filter: blur(130px); top: -100px; left: -150px;
-      opacity: .04; pointer-events: none; background: var(--ac);
+      width: 600px; height: 600px; border-radius: 50%;
+      filter: blur(120px); top: -80px; left: -100px;
+      opacity: .05; pointer-events: none; background: var(--ac);
     }
 
     .th {
       display: grid; grid-template-columns: auto 1fr auto;
-      align-items: start; gap: 1.2rem 1.8rem; margin-bottom: 2.8rem;
+      align-items: start; gap: 1.2rem 1.8rem; margin-bottom: 3rem;
     }
     .th-num {
       font-family: 'Playfair Display', serif;
-      font-size: 6.5rem; font-weight: 900; line-height: 1;
+      font-size: 6rem; font-weight: 900; line-height: 1;
       opacity: .05; color: white; user-select: none;
     }
-    .th-tag  { font-size: .68rem; letter-spacing: .32em; text-transform: uppercase; color: var(--ac); margin-bottom: .35rem; }
+    .th-tag  { font-size: .67rem; letter-spacing: .32em; text-transform: uppercase; color: var(--ac); margin-bottom: .35rem; }
+
+    /* Animation d'entrée du titre */
     .th-title {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 700; line-height: 1.05; margin-bottom: .7rem;
+      overflow: hidden;
     }
-    .th-desc  { font-size: .88rem; color: var(--dim); max-width: 460px; line-height: 1.78; }
-    .th-bar   { width: 38px; height: 2px; background: var(--ac); margin-top: 1.1rem; border-radius: 2px; }
+    .th-title-inner {
+      display: block;
+      transform: translateY(100%);
+      transition: transform .8s cubic-bezier(.77,0,.175,1);
+    }
+    .ts.visible .th-title-inner { transform: translateY(0); }
+
+    .th-desc  { font-size: .87rem; color: var(--dim); max-width: 460px; line-height: 1.8; }
+    .th-bar   { width: 0; height: 2px; background: var(--ac); margin-top: 1.1rem; border-radius: 2px; transition: width .9s ease .3s; }
+    .ts.visible .th-bar { width: 38px; }
+
     .th-count { text-align: right; font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); padding-top: .3rem; }
     .th-count strong { display: block; font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--text); line-height: 1; }
 
-    /* ==============================================
-       ITEM MÉDIA — BASE
-    =============================================== */
-    .mg { display: grid; gap: var(--gap); }
-
-    .mi {
-      position: relative; overflow: hidden; border-radius: 3px;
-      background: var(--card);
-      border: 1px dashed rgba(255,255,255,.06);
-      opacity: 0; transform: translateY(14px);
-      transition: opacity .5s ease, transform .5s ease, border-color .3s;
+    /* ============================================
+       GRILLE — toutes les images en PORTRAIT 2:3
+    ============================================ */
+    .mg {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
     }
-    .mi.show { opacity: 1; transform: translateY(0); }
-    .mi:hover { border-color: rgba(255,255,255,.12); }
 
-    /* Placeholder vide (centré via grid) */
+    /* Nature Mouvement : seulement 5 items → 3 colonnes */
+    #t6 .mg { grid-template-columns: repeat(3, 1fr); }
+
+    /* Item portrait */
+    .mi {
+      position: relative; overflow: hidden; border-radius: 4px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.05);
+      aspect-ratio: 2 / 3;
+
+      /* Animation d'entrée */
+      opacity: 0;
+      transform: translateY(32px) scale(0.96);
+      transition:
+        opacity    .6s ease,
+        transform  .6s cubic-bezier(.25,.46,.45,.94),
+        border-color .3s;
+    }
+    .mi.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .mi:hover { border-color: rgba(255,255,255,.15); }
+
+    /* Label vide (centré via grid) */
     .mi::before {
       content: attr(data-slot);
       position: absolute; inset: 0; z-index: 0;
       display: grid; place-items: center;
-      color: rgba(255,255,255,.1); font-size: .62rem;
+      color: rgba(255,255,255,.08); font-size: .58rem;
       letter-spacing: .1em; text-transform: uppercase;
-      pointer-events: none; line-height: 1.6;
+      pointer-events: none; padding: 1rem; text-align: center;
     }
 
-    /* Image */
+    /* Photo */
     .mi img {
       position: relative; z-index: 1;
       width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform .65s cubic-bezier(.25,.46,.45,.94);
+      transition: transform .75s cubic-bezier(.25,.46,.45,.94);
       cursor: zoom-in;
     }
-    .mi:hover img { transform: scale(1.06); }
 
-    /* Overlay au survol */
+    /* ★ Zoom au survol — légèrement agrandi */
+    .mi:hover img { transform: scale(1.1); }
+
+    /* Overlay survol */
     .ov {
       position: absolute; inset: 0; z-index: 2;
-      background: linear-gradient(to top, rgba(0,0,0,.5) 0%, transparent 55%);
-      opacity: 0; transition: opacity .35s;
-      display: flex; align-items: flex-end; padding: .9rem;
+      background: linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 50%);
+      opacity: 0; transition: opacity .4s ease;
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 1rem;
     }
     .mi:hover .ov { opacity: 1; }
-    .ov-lbl {
-      font-size: .58rem; letter-spacing: .07em; text-transform: uppercase;
-      color: rgba(255,255,255,.65); background: rgba(0,0,0,.5);
-      padding: .2rem .55rem; border-radius: 3px;
-      border: 1px solid rgba(255,255,255,.08);
+
+    .ov-name {
+      font-size: .6rem; letter-spacing: .07em; text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+      transform: translateY(6px);
+      transition: transform .35s ease;
     }
+    .mi:hover .ov-name { transform: translateY(0); }
+
+    /* Trait de couleur en bas au survol */
+    .ov-line {
+      width: 0; height: 2px; background: var(--ac, white);
+      border-radius: 2px; margin-top: .4rem;
+      transition: width .4s ease .1s;
+    }
+    .mi:hover .ov-line { width: 100%; }
 
     /* Vidéo */
     .mi video {
       position: relative; z-index: 1;
       width: 100%; height: 100%; object-fit: cover; display: none;
+      transition: transform .75s cubic-bezier(.25,.46,.45,.94);
     }
-    .mi.vid-ok video { display: block; }
-    .mi.vid-ok .vph  { display: none !important; }
+    .mi:hover video { transform: scale(1.06); }
+    .mi.vid-ok video  { display: block; }
+    .mi.vid-ok .vph   { display: none !important; }
 
     /* Placeholder vidéo */
     .vph {
@@ -296,145 +350,36 @@
       gap: .9rem; text-align: center; padding: 1.5rem;
     }
     .vbtn {
-      width: 54px; height: 54px; border-radius: 50%;
+      width: 52px; height: 52px; border-radius: 50%;
       background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.18);
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem; color: rgba(255,255,255,.55); flex-shrink: 0;
       animation: pulse 2.5s ease-in-out infinite;
+      transition: transform .3s, background .3s;
     }
+    .mi:hover .vbtn { transform: scale(1.1); background: rgba(255,255,255,.1); }
     @keyframes pulse {
       0%,100% { box-shadow: 0 0 0 0   rgba(255,255,255,.07); }
-      50%      { box-shadow: 0 0 0 12px rgba(255,255,255,.0); }
+      50%      { box-shadow: 0 0 0 12px rgba(255,255,255,0); }
     }
-    .vtxt { font-size: .72rem; color: rgba(255,255,255,.35); line-height: 1.5; }
-    .vtxt strong { display: block; color: rgba(255,255,255,.5); margin-bottom: .25rem; font-size: .75rem; }
+    .vtxt { font-size: .7rem; color: rgba(255,255,255,.3); line-height: 1.5; }
+    .vtxt strong { display: block; color: rgba(255,255,255,.5); margin-bottom: .2rem; }
     .vcode {
-      display: inline-block; margin-top: .35rem; font-family: monospace; font-size: .55rem;
+      display: block; margin-top: .35rem; font-family: monospace; font-size: .54rem;
       background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
-      padding: .2rem .5rem; border-radius: 3px; color: rgba(255,255,255,.25);
+      padding: .2rem .5rem; border-radius: 3px; color: rgba(255,255,255,.22);
     }
 
-    /* ==============================================
-       GRILLES PAR THÈME
-       — 4 colonnes pour les thèmes avec beaucoup de médias
-       — 3 colonnes pour Nature Mouvement (5 items)
-    =============================================== */
-
-    /* T1 · Ambiance Hivernal — 8 photos + 1 vidéo = 9 items · 4 cols × 3 rows */
-    #t1 { --ac: var(--t1); }
-    #t1 .mg {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 252px 252px 252px;
-    }
-    #t1 .i1 { grid-column: 1 / 3; grid-row: 1; }
-    #t1 .i2 { grid-column: 3;     grid-row: 1; }
-    #t1 .i3 { grid-column: 4;     grid-row: 1; }
-    #t1 .i4 { grid-column: 1;     grid-row: 2; }
-    #t1 .i5 { grid-column: 2;     grid-row: 2; }
-    #t1 .i6 { grid-column: 3 / 5; grid-row: 2; }
-    #t1 .i7 { grid-column: 1;     grid-row: 3; }
-    #t1 .i8 { grid-column: 2 / 4; grid-row: 3; } /* VIDÉO */
-    #t1 .i9 { grid-column: 4;     grid-row: 3; }
-
-    /* T2 · Douce Mélodie — 8 photos + 1 vidéo = 9 items · 4 cols × 3 rows */
-    #t2 { --ac: var(--t2); }
-    #t2 .mg {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 252px 252px 252px;
-    }
-    #t2 .i1 { grid-column: 1;     grid-row: 1 / 3; } /* tall */
-    #t2 .i2 { grid-column: 2 / 4; grid-row: 1; }
-    #t2 .i3 { grid-column: 4;     grid-row: 1; }
-    #t2 .i4 { grid-column: 2;     grid-row: 2; }
-    #t2 .i5 { grid-column: 3;     grid-row: 2; }
-    #t2 .i6 { grid-column: 4;     grid-row: 2; }     /* VIDÉO */
-    #t2 .i7 { grid-column: 1 / 3; grid-row: 3; }
-    #t2 .i8 { grid-column: 3;     grid-row: 3; }
-    #t2 .i9 { grid-column: 4;     grid-row: 3; }
-
-    /* T3 · Interview — 7 photos + 1 vidéo = 8 items · 4 cols × 3 rows */
-    #t3 { --ac: var(--t3); }
-    #t3 .mg {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 258px 258px 200px;
-    }
-    #t3 .i1 { grid-column: 1 / 3; grid-row: 1; }
-    #t3 .i2 { grid-column: 3;     grid-row: 1; }
-    #t3 .i3 { grid-column: 4;     grid-row: 1; }
-    #t3 .i4 { grid-column: 1;     grid-row: 2; }
-    #t3 .i5 { grid-column: 2;     grid-row: 2; }
-    #t3 .i6 { grid-column: 3 / 5; grid-row: 2; }    /* VIDÉO */
-    #t3 .i7 { grid-column: 1 / 3; grid-row: 3; }
-    #t3 .i8 { grid-column: 3 / 5; grid-row: 3; }
-
-    /* T4 · Lac & Mouvement — 8 photos + 1 vidéo = 9 items · 4 cols × 3 rows */
-    #t4 { --ac: var(--t4); }
-    #t4 .mg {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 252px 252px 252px;
-    }
-    #t4 .i1 { grid-column: 1;     grid-row: 1 / 3; } /* tall */
-    #t4 .i2 { grid-column: 2 / 4; grid-row: 1; }
-    #t4 .i3 { grid-column: 4;     grid-row: 1; }
-    #t4 .i4 { grid-column: 2;     grid-row: 2; }
-    #t4 .i5 { grid-column: 3;     grid-row: 2; }
-    #t4 .i6 { grid-column: 4;     grid-row: 2; }
-    #t4 .i7 { grid-column: 1 / 3; grid-row: 3; }    /* VIDÉO */
-    #t4 .i8 { grid-column: 3;     grid-row: 3; }
-    #t4 .i9 { grid-column: 4;     grid-row: 3; }
-
-    /* T5 · L'Image en Action — 8 photos · 4 cols × 3 rows */
-    #t5 { --ac: var(--t5); }
-    #t5 .mg {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 258px 258px 200px;
-    }
-    #t5 .i1 { grid-column: 1 / 3; grid-row: 1; }
-    #t5 .i2 { grid-column: 3;     grid-row: 1; }
-    #t5 .i3 { grid-column: 4;     grid-row: 1; }
-    #t5 .i4 { grid-column: 1;     grid-row: 2; }
-    #t5 .i5 { grid-column: 2 / 4; grid-row: 2; }
-    #t5 .i6 { grid-column: 4;     grid-row: 2; }
-    #t5 .i7 { grid-column: 1 / 3; grid-row: 3; }
-    #t5 .i8 { grid-column: 3 / 5; grid-row: 3; }
-
-    /* T6 · Nature Mouvement — 4 photos + 1 vidéo = 5 items · 3 cols × 2 rows */
-    #t6 { --ac: var(--t6); }
-    #t6 .mg {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 285px 265px;
-    }
-    #t6 .i1 { grid-column: 1 / 3; grid-row: 1; }    /* VIDÉO */
-    #t6 .i2 { grid-column: 3;     grid-row: 1; }
-    #t6 .i3 { grid-column: 1;     grid-row: 2; }
-    #t6 .i4 { grid-column: 2;     grid-row: 2; }
-    #t6 .i5 { grid-column: 3;     grid-row: 2; }
-
-    /* T7 · Vitesse — 7 photos + 1 vidéo = 8 items · 4 cols × 3 rows */
-    #t7 { --ac: var(--t7); }
-    #t7 .mg {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 258px 258px 200px;
-    }
-    #t7 .i1 { grid-column: 1 / 3; grid-row: 1; }
-    #t7 .i2 { grid-column: 3;     grid-row: 1; }
-    #t7 .i3 { grid-column: 4;     grid-row: 1; }
-    #t7 .i4 { grid-column: 1;     grid-row: 2; }
-    #t7 .i5 { grid-column: 2 / 4; grid-row: 2; }    /* VIDÉO */
-    #t7 .i6 { grid-column: 4;     grid-row: 2; }
-    #t7 .i7 { grid-column: 1 / 3; grid-row: 3; }
-    #t7 .i8 { grid-column: 3 / 5; grid-row: 3; }
-
-    /* ==============================================
+    /* ============================================
        FOOTER
-    =============================================== */
+    ============================================ */
     footer { padding: 6rem 2.5rem 3rem; text-align: center; position: relative; }
     footer::before {
       content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
       width: 1px; height: 5rem;
       background: linear-gradient(to bottom, rgba(255,255,255,.1), transparent);
     }
-    .ft-lbl  { font-size: .68rem; letter-spacing: .35em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+    .ft-lbl  { font-size: .67rem; letter-spacing: .35em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
     .ft-name {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; margin-bottom: .5rem;
@@ -457,31 +402,25 @@
       font-size: .68rem; color: rgba(255,255,255,.15); letter-spacing: .04em;
     }
 
-    /* ==============================================
+    /* ============================================
        RESPONSIVE
-    =============================================== */
+    ============================================ */
     @media (max-width: 1000px) {
       .side-nav { display: none; }
+      .mg { grid-template-columns: repeat(3, 1fr); }
+      #t6 .mg { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 860px) {
-      .nav-links { gap: 1rem; }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
       .th { grid-template-columns: auto 1fr; }
       .th-count { display: none; }
-      #t1 .mg, #t2 .mg, #t3 .mg, #t4 .mg, #t5 .mg, #t7 .mg {
-        grid-template-columns: 1fr 1fr !important;
-        grid-template-rows: auto !important;
-      }
-      #t6 .mg { grid-template-columns: 1fr 1fr !important; grid-template-rows: auto !important; }
-      .mi { grid-column: auto !important; grid-row: auto !important; height: 230px !important; }
-    }
-    @media (max-width: 540px) {
-      nav { padding: 1rem 1.2rem; }
-      .nav-links { display: none; }
+      .mg { grid-template-columns: repeat(2, 1fr); }
+      #t6 .mg { grid-template-columns: repeat(2, 1fr); }
       .ts { padding: 4.5rem 1.2rem 3rem; }
-      #t1 .mg, #t2 .mg, #t3 .mg, #t4 .mg, #t5 .mg, #t6 .mg, #t7 .mg {
-        grid-template-columns: 1fr !important;
-      }
-      .mi { height: 260px !important; }
+      nav { padding: 1rem 1.2rem; }
+    }
+    @media (max-width: 420px) {
+      .mg, #t6 .mg { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -496,9 +435,9 @@
     <img src="" alt="" id="lb-img">
   </div>
 
-  <!-- ═══════════════════════════════════
+  <!-- ══════════════════════════════════
        NAV
-  ════════════════════════════════════ -->
+  ═══════════════════════════════════ -->
   <nav>
     <a href="#hero" class="logo">Saitawan</a>
     <ul class="nav-links">
@@ -523,21 +462,20 @@
     <div class="dot" data-href="#t7" data-label="07 · Vitesse"></div>
   </div>
 
-  <!-- ═══════════════════════════════════
-       HERO
-  ════════════════════════════════════ -->
+  <!-- ══════════════════════════════════
+       HERO — fond vertical IMG_3620.JPG
+  ═══════════════════════════════════ -->
   <section id="hero">
-    <div class="hero-bg">
-      <div class="orb o1"></div>
-      <div class="orb o2"></div>
-      <div class="orb o3"></div>
-    </div>
+    <!-- ★ Photo de fond verticale -->
+    <img src="photos/perso/IMG_3620.JPG" class="hero-img" alt="Saitawan">
+    <div class="hero-veil"></div>
+
     <div class="hero-inner">
       <p class="hero-eye">Portfolio · Photographie &amp; Vidéo · 2024</p>
       <h1 class="hero-title">Saitawan<em>Visuals</em></h1>
       <p class="hero-sub">
-        Sept regards sur le monde. De la douceur hivernale à la puissance de la vitesse,
-        du calme des lacs à l'énergie de l'action — une vision photographique unique.
+        Sept regards sur le monde — de la douceur hivernale à la puissance de la vitesse,
+        une vision photographique unique.
       </p>
       <div class="pills">
         <a href="#t1" class="pill">Ambiance Hivernal</a>
@@ -549,61 +487,64 @@
         <a href="#t7" class="pill">Vitesse</a>
       </div>
     </div>
+
     <div class="hero-scroll">
       <span>Défiler</span>
       <div class="scroll-bar"></div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════
        T1 — AMBIANCE HIVERNAL
-       8 photos (IMG_1135 2 → IMG_1592) + 1 vidéo
-  ════════════════════════════════════════════════════════ -->
+       8 photos + 1 vidéo en dernier · grille 4 col portrait
+  ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t1">
     <div class="th">
       <span class="th-num">01</span>
       <div>
         <p class="th-tag">Hiver &amp; Atmosphère</p>
-        <h2 class="th-title">Ambiance Hivernal</h2>
-        <p class="th-desc">La magie silencieuse de l'hiver — givre cristallisé, brumes matinales et paysages immaculés qui invitent à la contemplation.</p>
+        <h2 class="th-title"><span class="th-title-inner">Ambiance Hivernal</span></h2>
+        <p class="th-desc">La magie silencieuse de l'hiver — givre cristallisé, brumes matinales et paysages immaculés.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
     </div>
     <div class="mg">
-
-      <div class="mi i1">
+      <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1135 2.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1135 2.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1135 2.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i2">
+      <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1207.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1207.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1207.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i3">
+      <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1260.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1260.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1260.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i4">
+      <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1273.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1273.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1273.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i5">
+      <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1281.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1281.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1281.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i6">
+      <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1413.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1413.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1413.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i7">
+      <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1442.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1442.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1442.jpg</span><div class="ov-line"></div></div>
       </div>
-
-      <!-- VIDÉO -->
-      <div class="mi i8">
+      <div class="mi" style="--ac:var(--t1)">
+        <img src="photos/ambiance hivernal/IMG_1592.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_1592.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <!-- VIDÉO EN DERNIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t1)">
         <video preload="metadata" controls poster="photos/ambiance hivernal/IMG_1135 2.jpg">
           <source src="videos/ambiance-hivernal/9c60afe6-1fed-4605-b651-d160551a5062 2.MP4" type="video/mp4">
         </video>
@@ -612,56 +553,60 @@
           <div class="vtxt"><strong>🎬 Ambiance Hivernal</strong><span class="vcode">ambiance-hivernal/video.MP4</span></div>
         </div>
       </div>
-
-      <div class="mi i9">
-        <img src="photos/ambiance hivernal/IMG_1592.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1592.jpg</span></div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════
        T2 — DOUCE MÉLODIE
-       8 photos (IMG_2457 → IMG_2677) + 1 vidéo
-  ════════════════════════════════════════════════════════ -->
+       8 photos + 1 vidéo en dernier
+  ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t2">
     <div class="th">
       <span class="th-num">02</span>
       <div>
         <p class="th-tag">Musique &amp; Émotion</p>
-        <h2 class="th-title">Douce Mélodie</h2>
-        <p class="th-desc">Là où la photographie rencontre la musique — des images rythmées par les émotions, la douceur et la poésie du quotidien.</p>
+        <h2 class="th-title"><span class="th-title-inner">Douce Mélodie</span></h2>
+        <p class="th-desc">Là où la photographie rencontre la musique — des images rythmées par la douceur et la poésie du quotidien.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
     </div>
     <div class="mg">
-
-      <div class="mi i1">
+      <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2457.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2457.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_2457.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i2">
+      <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2493.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2493.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_2493.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i3">
+      <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2498.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2498.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_2498.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i4">
+      <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2590.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2590.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_2590.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i5">
+      <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2636.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2636.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_2636.jpg</span><div class="ov-line"></div></div>
       </div>
-
-      <!-- VIDÉO -->
-      <div class="mi i6">
+      <div class="mi" style="--ac:var(--t2)">
+        <img src="photos/douce-melodie/IMG_2651.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_2651.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t2)">
+        <img src="photos/douce-melodie/IMG_2659.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_2659.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t2)">
+        <img src="photos/douce-melodie/IMG_2677.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_2677.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <!-- VIDÉO EN DERNIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t2)">
         <video preload="metadata" controls poster="photos/douce-melodie/IMG_2457.jpg">
           <source src="videos/douce-melodie/7SEVEN-2.mp4" type="video/mp4">
         </video>
@@ -670,64 +615,56 @@
           <div class="vtxt"><strong>🎬 Douce Mélodie</strong><span class="vcode">douce-melodie/7SEVEN-2.mp4</span></div>
         </div>
       </div>
-
-      <div class="mi i7">
-        <img src="photos/douce-melodie/IMG_2651.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2651.jpg</span></div>
-      </div>
-      <div class="mi i8">
-        <img src="photos/douce-melodie/IMG_2659.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2659.jpg</span></div>
-      </div>
-      <div class="mi i9">
-        <img src="photos/douce-melodie/IMG_2677.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2677.jpg</span></div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════
        T3 — INTERVIEW
-       7 photos (_RUV5521 → _RUV5539) + 1 vidéo
-  ════════════════════════════════════════════════════════ -->
+       7 photos + 1 vidéo en dernier
+  ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t3">
     <div class="th">
       <span class="th-num">03</span>
       <div>
         <p class="th-tag">Dialogue &amp; Vérité</p>
-        <h2 class="th-title">Interview</h2>
+        <h2 class="th-title"><span class="th-title-inner">Interview</span></h2>
         <p class="th-desc">Capturer l'instant de vérité — portraits en situation, regards sincères et la puissance du dialogue figé en image.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>8</strong>7 photos · 1 vidéo</div>
     </div>
     <div class="mg">
-
-      <div class="mi i1">
+      <div class="mi" style="--ac:var(--t3)">
         <img src="photos/interview/_RUV5521.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">_RUV5521.jpg</span></div>
+        <div class="ov"><span class="ov-name">_RUV5521.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i2">
+      <div class="mi" style="--ac:var(--t3)">
         <img src="photos/interview/_RUV5523.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">_RUV5523.jpg</span></div>
+        <div class="ov"><span class="ov-name">_RUV5523.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i3">
+      <div class="mi" style="--ac:var(--t3)">
         <img src="photos/interview/_RUV5525.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">_RUV5525.jpg</span></div>
+        <div class="ov"><span class="ov-name">_RUV5525.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i4">
+      <div class="mi" style="--ac:var(--t3)">
         <img src="photos/interview/_RUV5528.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">_RUV5528.jpg</span></div>
+        <div class="ov"><span class="ov-name">_RUV5528.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i5">
+      <div class="mi" style="--ac:var(--t3)">
         <img src="photos/interview/_RUV5532.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">_RUV5532.jpg</span></div>
+        <div class="ov"><span class="ov-name">_RUV5532.jpg</span><div class="ov-line"></div></div>
       </div>
-
-      <!-- VIDÉO -->
-      <div class="mi i6">
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5535.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">_RUV5535.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5539.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">_RUV5539.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <!-- VIDÉO EN DERNIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t3)">
         <video preload="metadata" controls poster="photos/interview/_RUV5521.jpg">
           <source src="videos/interview/interview V2 chez engèle.mp4" type="video/mp4">
         </video>
@@ -736,64 +673,60 @@
           <div class="vtxt"><strong>🎬 Interview</strong><span class="vcode">interview/interview V2.mp4</span></div>
         </div>
       </div>
-
-      <div class="mi i7">
-        <img src="photos/interview/_RUV5535.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">_RUV5535.jpg</span></div>
-      </div>
-      <div class="mi i8">
-        <img src="photos/interview/_RUV5539.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">_RUV5539.jpg</span></div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════
        T4 — LAC & MOUVEMENT
-       8 photos (IMG_1736 → IMG_2032) + 1 vidéo (ARTISTIQUE)
-  ════════════════════════════════════════════════════════ -->
+       8 photos + 1 vidéo en dernier
+  ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t4">
     <div class="th">
       <span class="th-num">04</span>
       <div>
         <p class="th-tag">Eau &amp; Réflexion</p>
-        <h2 class="th-title">Lac &amp; Mouvement</h2>
+        <h2 class="th-title"><span class="th-title-inner">Lac &amp; Mouvement</span></h2>
         <p class="th-desc">L'eau comme miroir du monde — reflets, ondulations et la beauté hypnotique de la nature en perpétuel mouvement.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
     </div>
     <div class="mg">
-
-      <div class="mi i1">
+      <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1736.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1736.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1736.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i2">
+      <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1833.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1833.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1833.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i3">
+      <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1872.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1872.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1872.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i4">
+      <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1906.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1906.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1906.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i5">
+      <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1966.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1966.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1966.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i6">
+      <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1998.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1998.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1998.jpg</span><div class="ov-line"></div></div>
       </div>
-
-      <!-- VIDÉO -->
-      <div class="mi i7">
+      <div class="mi" style="--ac:var(--t4)">
+        <img src="photos/lac mouvement/IMG_2016.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_2016.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t4)">
+        <img src="photos/lac mouvement/IMG_2032.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_2032.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <!-- VIDÉO EN DERNIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t4)">
         <video preload="metadata" controls poster="photos/lac mouvement/IMG_1736.jpg">
           <source src="videos/lac mouvement/ARTISTIQUE .mp4" type="video/mp4">
         </video>
@@ -802,93 +735,107 @@
           <div class="vtxt"><strong>🎬 Artistique</strong><span class="vcode">lac mouvement/ARTISTIQUE.mp4</span></div>
         </div>
       </div>
-
-      <div class="mi i8">
-        <img src="photos/lac mouvement/IMG_2016.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2016.jpg</span></div>
-      </div>
-      <div class="mi i9">
-        <img src="photos/lac mouvement/IMG_2032.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_2032.jpg</span></div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════
        T5 — L'IMAGE EN ACTION
-       8 photos (IMG_0522 → IMG_0599) — pas de vidéo
-  ════════════════════════════════════════════════════════ -->
+       8 photos + 1 vidéo en dernier (faucheuse exemple efe.MOV)
+  ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t5">
     <div class="th">
       <span class="th-num">05</span>
       <div>
         <p class="th-tag">Mouvement &amp; Adrénaline</p>
-        <h2 class="th-title">L'Image en Action</h2>
+        <h2 class="th-title"><span class="th-title-inner">L'Image en Action</span></h2>
         <p class="th-desc">Figer ce qui ne peut l'être — l'adrénaline, la précision et la puissance de l'instant décisif capturé au millième de seconde.</p>
         <div class="th-bar"></div>
       </div>
-      <div class="th-count">Médias<strong>8</strong>8 photos</div>
+      <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
     </div>
     <div class="mg">
-
-      <div class="mi i1">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0522.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0522.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0522.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i2">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0525.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0525.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0525.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i3">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0531.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0531.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0531.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i4">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0550.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0550.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0550.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i5">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0558.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0558.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0558.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i6">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0562.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0562.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0562.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i7">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0590.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0590.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0590.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i8">
+      <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0599.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_0599.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_0599.jpg</span><div class="ov-line"></div></div>
       </div>
-
+      <!-- VIDÉO EN DERNIER (format MOV — compatible Safari, Firefox/Chrome peuvent ne pas lire) -->
+      <div class="mi" data-slot="" style="--ac:var(--t5)">
+        <video preload="metadata" controls poster="photos/l'image action/IMG_0522.jpg">
+          <source src="videos/image action/faucheuse exemple efe.MOV" type="video/mp4">
+          <source src="videos/image action/faucheuse exemple efe.MOV" type="video/quicktime">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtxt"><strong>🎬 L'Image en Action</strong><span class="vcode">image action/faucheuse exemple.MOV</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════
        T6 — NATURE MOUVEMENT
-       4 photos (IMG_4203 → IMG_4487-2) + 1 vidéo
-  ════════════════════════════════════════════════════════ -->
+       4 photos + 1 vidéo en dernier · grille 3 colonnes
+  ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t6">
     <div class="th">
       <span class="th-num">06</span>
       <div>
         <p class="th-tag">Nature &amp; Vie sauvage</p>
-        <h2 class="th-title">Nature Mouvement</h2>
+        <h2 class="th-title"><span class="th-title-inner">Nature Mouvement</span></h2>
         <p class="th-desc">La nature en perpétuel changement — vent dans les branches, cours d'eau vifs et vie sauvage captés en plein élan.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>5</strong>4 photos · 1 vidéo</div>
     </div>
     <div class="mg">
-
-      <!-- VIDÉO — large à gauche -->
-      <div class="mi i1">
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4203.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_4203.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4210.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_4210.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4465.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_4465.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4487-2.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_4487-2.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <!-- VIDÉO EN DERNIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t6)">
         <video preload="metadata" controls poster="photos/nature-mouvement/IMG_4203.jpg">
           <source src="videos/nature mouvement/v24025gl0000d5h663fog65ust24b05g.MP4" type="video/mp4">
         </video>
@@ -897,64 +844,56 @@
           <div class="vtxt"><strong>🎬 Nature Mouvement</strong><span class="vcode">nature mouvement/video.MP4</span></div>
         </div>
       </div>
-
-      <div class="mi i2">
-        <img src="photos/nature-mouvement/IMG_4203.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_4203.jpg</span></div>
-      </div>
-      <div class="mi i3">
-        <img src="photos/nature-mouvement/IMG_4210.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_4210.jpg</span></div>
-      </div>
-      <div class="mi i4">
-        <img src="photos/nature-mouvement/IMG_4465.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_4465.jpg</span></div>
-      </div>
-      <div class="mi i5">
-        <img src="photos/nature-mouvement/IMG_4487-2.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_4487-2.jpg</span></div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════
+  <!-- ══════════════════════════════════════════════════
        T7 — VITESSE
-       7 photos (IMG_1749 → IMG_1829) + 1 vidéo
-  ════════════════════════════════════════════════════════ -->
+       7 photos + 1 vidéo en dernier
+  ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t7">
     <div class="th">
       <span class="th-num">07</span>
       <div>
         <p class="th-tag">Rapidité &amp; Sensation</p>
-        <h2 class="th-title">Vitesse</h2>
+        <h2 class="th-title"><span class="th-title-inner">Vitesse</span></h2>
         <p class="th-desc">Quand tout va trop vite pour l'œil nu — la vitesse transformée en art, chaque image un défi lancé à la physique.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>8</strong>7 photos · 1 vidéo</div>
     </div>
     <div class="mg">
-
-      <div class="mi i1">
+      <div class="mi" style="--ac:var(--t7)">
         <img src="photos/vitesse/IMG_1749.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1749.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1749.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i2">
+      <div class="mi" style="--ac:var(--t7)">
         <img src="photos/vitesse/IMG_1765.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1765.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1765.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i3">
+      <div class="mi" style="--ac:var(--t7)">
         <img src="photos/vitesse/IMG_1772.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1772.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1772.jpg</span><div class="ov-line"></div></div>
       </div>
-      <div class="mi i4">
+      <div class="mi" style="--ac:var(--t7)">
         <img src="photos/vitesse/IMG_1791.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1791.jpg</span></div>
+        <div class="ov"><span class="ov-name">IMG_1791.jpg</span><div class="ov-line"></div></div>
       </div>
-
-      <!-- VIDÉO -->
-      <div class="mi i5">
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1812.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_1812.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1816.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_1816.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1829.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-name">IMG_1829.jpg</span><div class="ov-line"></div></div>
+      </div>
+      <!-- VIDÉO EN DERNIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t7)">
         <video preload="metadata" controls poster="photos/vitesse/IMG_1749.jpg">
           <source src="videos/vitesse/Video by vizion.cars-3.mp4" type="video/mp4">
         </video>
@@ -963,26 +902,12 @@
           <div class="vtxt"><strong>🎬 Vitesse</strong><span class="vcode">vitesse/Video by vizion.cars-3.mp4</span></div>
         </div>
       </div>
-
-      <div class="mi i6">
-        <img src="photos/vitesse/IMG_1812.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1812.jpg</span></div>
-      </div>
-      <div class="mi i7">
-        <img src="photos/vitesse/IMG_1816.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1816.jpg</span></div>
-      </div>
-      <div class="mi i8">
-        <img src="photos/vitesse/IMG_1829.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-lbl">IMG_1829.jpg</span></div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════
+  <!-- ══════════════════════════════════
        FOOTER
-  ════════════════════════════════════ -->
+  ═══════════════════════════════════ -->
   <div class="sep"></div>
   <footer>
     <p class="ft-lbl">Contactez-moi</p>
@@ -998,12 +923,12 @@
     </div>
   </footer>
 
-  <!-- ═══════════════════════════════════
+  <!-- ══════════════════════════════════
        JAVASCRIPT
-  ════════════════════════════════════ -->
+  ═══════════════════════════════════ -->
   <script>
     /* Curseur */
-    const cur = document.getElementById('cur');
+    const cur  = document.getElementById('cur');
     const curR = document.getElementById('curR');
     let mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', e => {
@@ -1012,7 +937,7 @@
     });
     (function lerp() {
       rx += (mx - rx) * .1; ry += (my - ry) * .1;
-      curR.style.transform = `translate(${rx - 19}px,${ry - 19}px)`;
+      curR.style.transform = `translate(${rx - 18}px,${ry - 18}px)`;
       requestAnimationFrame(lerp);
     })();
     document.querySelectorAll('a,button,.mi,.dot,.pill').forEach(el => {
@@ -1020,28 +945,32 @@
       el.addEventListener('mouseleave', () => { cur.classList.remove('big'); curR.classList.remove('big'); });
     });
 
-    /* Dots latéraux */
+    /* Dots */
     const sections = ['hero','t1','t2','t3','t4','t5','t6','t7'];
     const dots = document.querySelectorAll('.dot');
     dots.forEach(d => d.addEventListener('click', () =>
       document.querySelector(d.dataset.href)?.scrollIntoView({ behavior: 'smooth' })
     ));
 
-    /* IntersectionObserver : animations + dots actifs */
+    /* IntersectionObserver */
     const ioItems = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
         e.target.querySelectorAll('.mi').forEach((m, i) =>
-          setTimeout(() => m.classList.add('show'), i * 75));
+          setTimeout(() => m.classList.add('show'), i * 70)
+        );
       });
-    }, { threshold: .05 });
+    }, { threshold: .04 });
 
     const ioSec = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
+        /* Active dot */
         dots.forEach((d, i) => d.classList.toggle('on', sections[i] === e.target.id));
+        /* Anime le titre + la barre */
+        e.target.classList.add('visible');
       });
-    }, { threshold: .25 });
+    }, { threshold: .2 });
 
     sections.forEach(id => {
       const el = document.getElementById(id);
@@ -1050,14 +979,14 @@
       if (id !== 'hero') ioItems.observe(el);
     });
 
-    /* Vidéos : affiche quand elles chargent */
+    /* Vidéos : affiche quand chargées */
     document.querySelectorAll('.mi video').forEach(v => {
       const mi = v.closest('.mi');
       v.addEventListener('canplay', () => mi.classList.add('vid-ok'), { once: true });
       v.load();
     });
 
-    /* Lightbox (photos) */
+    /* Lightbox */
     const lb    = document.getElementById('lb');
     const lbImg = document.getElementById('lb-img');
     document.querySelectorAll('.mi img').forEach(img => {
@@ -1066,17 +995,6 @@
     document.getElementById('lb-close').addEventListener('click', () => lb.classList.remove('open'));
     lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
-
-    /* Parallax hero */
-    const orbs = document.querySelectorAll('.orb');
-    document.addEventListener('mousemove', e => {
-      const cx = e.clientX / innerWidth  - .5;
-      const cy = e.clientY / innerHeight - .5;
-      orbs.forEach((o, i) => {
-        const s = (i + 1) * 20;
-        o.style.transform = `translate(${cx * s}px,${cy * s}px)`;
-      });
-    });
   </script>
 
 </body>
