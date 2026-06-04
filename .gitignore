@@ -9,11 +9,12 @@ desktop.ini
 *.swp
 *.swo
 
-# Dossiers médias locaux (à ne pas pousser sur Git)
-# Décommentez si vos médias sont trop lourds pour GitHub :
+# Vidéos — trop lourdes pour GitHub (>100 MB)
+# À héberger sur Cloudinary ou autre service externe
+videos/
+
+# Photos — légères, incluses dans git
 # photos/
-# videos/
-# previews/
 
 # Logs
 *.log
