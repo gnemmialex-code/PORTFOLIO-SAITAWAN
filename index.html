@@ -8,1324 +8,985 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* =========================================
+    /* ==============================================
        RESET & VARIABLES
-    ========================================= */
+    =============================================== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:    #060606;
-      --card:  #111111;
-      --text:  #f0f0f0;
-      --dim:   #666;
-      --t1:    #56c271;   /* Nature       — Vert */
-      --t2:    #78909c;   /* Architecture — Acier */
-      --t3:    #e8658a;   /* Portrait     — Rose */
-      --t4:    #ff6b35;   /* Sport        — Orange */
-      --t5:    #ab47bc;   /* Art          — Violet */
-      --t6:    #ffb300;   /* Voyage       — Ambre */
-      --t7:    #e8c547;   /* Événements   — Or */
+      --bg:   #060606;
+      --card: #0f0f0f;
+      --text: #f0f0f0;
+      --dim:  #555;
+
+      --t1: #a8d5f5;  /* Ambiance Hivernal — Bleu glacé  */
+      --t2: #f4a7b9;  /* Douce Mélodie    — Rose doux    */
+      --t3: #fdd891;  /* Interview        — Or chaud     */
+      --t4: #64d8cb;  /* Lac & Mouvement  — Turquoise    */
+      --t5: #ffab76;  /* L'Image Action   — Orange       */
+      --t6: #8bd48e;  /* Nature Mouvement — Vert         */
+      --t7: #f47a72;  /* Vitesse          — Rouge vif    */
     }
 
     html { scroll-behavior: smooth; overflow-x: hidden; }
-
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      font-weight: 400;
       cursor: none;
     }
 
-    /* =========================================
-       CURSEUR PERSONNALISÉ
-    ========================================= */
-    .cursor {
-      width: 10px; height: 10px;
-      background: white;
+    /* ==============================================
+       CURSEUR
+    =============================================== */
+    .cur, .cur-ring {
+      position: fixed; top: 0; left: 0;
       border-radius: 50%;
-      position: fixed;
-      top: 0; left: 0;
       pointer-events: none;
       z-index: 9999;
       mix-blend-mode: difference;
-      transition: transform 0.15s ease;
     }
-    .cursor-ring {
+    .cur {
+      width: 10px; height: 10px;
+      background: white;
+      transition: transform .15s ease;
+    }
+    .cur-ring {
       width: 38px; height: 38px;
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 50%;
-      position: fixed;
-      top: 0; left: 0;
-      pointer-events: none;
-      z-index: 9998;
-      mix-blend-mode: difference;
-      transition: transform 0.35s ease, width 0.3s, height 0.3s, opacity 0.3s;
+      border: 1px solid rgba(255,255,255,.4);
+      transition: transform .35s ease, width .3s, height .3s;
     }
-    .cursor.expand { transform: scale(3); }
-    .cursor-ring.expand { width: 60px; height: 60px; opacity: 0.6; }
+    .cur.big      { transform: scale(3.5); }
+    .cur-ring.big { width: 55px; height: 55px; }
 
-    /* =========================================
-       NAVIGATION TOP
-    ========================================= */
+    /* ==============================================
+       NAV
+    =============================================== */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      padding: 1.4rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(6,6,6,0.95) 0%, transparent 100%);
-      backdrop-filter: blur(4px);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 1.3rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(to bottom, rgba(6,6,6,.95), transparent);
+      backdrop-filter: blur(6px);
     }
-
-    .nav-logo {
+    .logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: white;
-      text-decoration: none;
+      font-size: 1.3rem; font-weight: 700;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: white; text-decoration: none;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
     .nav-links a {
-      color: var(--dim);
-      text-decoration: none;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.3s;
+      color: var(--dim); text-decoration: none;
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      transition: color .3s;
     }
     .nav-links a:hover { color: white; }
 
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-    }
-
-    /* =========================================
-       NAVIGATION LATÉRALE (POINTS)
-    ========================================= */
+    /* ==============================================
+       DOTS LATÉRAUX
+    =============================================== */
     .side-nav {
-      position: fixed;
-      right: 1.8rem;
-      top: 50%;
+      position: fixed; right: 1.8rem; top: 50%;
       transform: translateY(-50%);
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      z-index: 500;
+      display: flex; flex-direction: column; gap: .9rem;
     }
-
     .dot {
       width: 7px; height: 7px;
       border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.35);
+      border: 1.5px solid rgba(255,255,255,.3);
       cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
+      transition: all .3s; position: relative;
     }
-
     .dot::before {
       content: attr(data-label);
-      position: absolute;
-      right: calc(100% + 12px);
-      top: 50%;
+      position: absolute; right: calc(100% + 12px); top: 50%;
       transform: translateY(-50%);
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-      color: white;
-      background: rgba(0,0,0,0.75);
-      padding: 0.25rem 0.6rem;
-      border-radius: 3px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s;
+      font-size: .62rem; letter-spacing: .06em; white-space: nowrap;
+      color: white; background: rgba(0,0,0,.75);
+      padding: .2rem .55rem; border-radius: 3px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
     }
-    .dot:hover::before, .dot.active::before { opacity: 1; }
-    .dot:hover, .dot.active {
-      background: white;
-      border-color: white;
-      transform: scale(1.5);
-    }
+    .dot:hover::before, .dot.on::before { opacity: 1; }
+    .dot:hover, .dot.on { background: white; border-color: white; transform: scale(1.5); }
 
-    /* =========================================
+    /* ==============================================
+       LIGHTBOX
+    =============================================== */
+    #lb {
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(0,0,0,.95); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+    #lb.open { opacity: 1; pointer-events: all; }
+    #lb img {
+      max-width: 90vw; max-height: 90vh; object-fit: contain;
+      border-radius: 3px;
+      transform: scale(.95); transition: transform .3s;
+    }
+    #lb.open img { transform: scale(1); }
+    #lb-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      color: white; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .2s;
+    }
+    #lb-close:hover { background: rgba(255,255,255,.18); }
+
+    /* ==============================================
        HERO
-    ========================================= */
+    =============================================== */
     #hero {
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; position: relative; overflow: hidden;
     }
-
     .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 60% 40%, #0e1520 0%, #060606 65%);
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 55% 40%, #0d1622 0%, #060606 65%);
     }
-
     .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-      animation: orbFloat 10s ease-in-out infinite;
-      pointer-events: none;
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); pointer-events: none;
+      animation: floatOrb 11s ease-in-out infinite;
     }
-    .orb-1 { width: 500px; height: 500px; background: rgba(86,194,113,0.08);  top: -5%;  left: -5%;  animation-delay: 0s; }
-    .orb-2 { width: 350px; height: 350px; background: rgba(171,71,188,0.07);  top: 40%;  right: 5%;  animation-delay: 3s; }
-    .orb-3 { width: 280px; height: 280px; background: rgba(232,101,138,0.06); bottom: 5%; left: 40%; animation-delay: 6s; }
-
-    @keyframes orbFloat {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50%       { transform: translateY(-40px) scale(1.06); }
+    .o1 { width: 480px; height: 480px; background: rgba(168,213,245,.07); top: -8%;  left: -8%;  animation-delay: 0s; }
+    .o2 { width: 340px; height: 340px; background: rgba(244,167,185,.06); top: 42%;  right: 4%;  animation-delay: 3.5s; }
+    .o3 { width: 260px; height: 260px; background: rgba(253,216,145,.05); bottom: 4%; left: 38%; animation-delay: 7s; }
+    @keyframes floatOrb {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-38px) scale(1.07); }
     }
 
-    .hero-content { position: relative; z-index: 2; padding: 0 1rem; }
-
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 2rem;
-      animation: fadeUp 0.9s ease 0.3s both;
+    .hero-inner { position: relative; z-index: 2; padding: 0 1rem; }
+    .hero-eye {
+      font-size: .7rem; letter-spacing: .45em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1.8rem;
+      animation: fadeUp .9s ease .3s both;
     }
-
     .hero-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(5rem, 14vw, 11rem);
-      font-weight: 900;
-      line-height: 0.88;
-      letter-spacing: -0.03em;
-      margin-bottom: 2rem;
-      animation: fadeUp 0.9s ease 0.5s both;
+      font-size: clamp(4.5rem, 13vw, 10.5rem);
+      font-weight: 900; line-height: .9; letter-spacing: -.03em;
+      margin-bottom: 1.8rem;
+      animation: fadeUp .9s ease .5s both;
     }
-
     .hero-title em {
-      display: block;
-      font-style: italic;
-      font-weight: 400;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,255,255,0.25);
-      font-size: 0.85em;
+      display: block; font-style: italic; font-weight: 400; font-size: .82em;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.22);
     }
-
     .hero-sub {
-      font-size: clamp(0.85rem, 1.8vw, 1rem);
-      color: var(--dim);
-      max-width: 480px;
-      line-height: 1.75;
-      animation: fadeUp 0.9s ease 0.7s both;
+      font-size: clamp(.82rem, 1.6vw, .98rem); color: var(--dim);
+      max-width: 460px; line-height: 1.8;
+      animation: fadeUp .9s ease .7s both;
     }
-
-    .hero-themes {
-      margin-top: 2.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      justify-content: center;
-      animation: fadeUp 0.9s ease 0.9s both;
+    .pills {
+      margin-top: 2.2rem;
+      display: flex; flex-wrap: wrap; gap: .55rem; justify-content: center;
+      animation: fadeUp .9s ease .9s both;
     }
-
-    .theme-pill {
-      padding: 0.35rem 0.9rem;
-      border-radius: 100px;
-      border: 1px solid rgba(255,255,255,0.12);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      cursor: pointer;
-      transition: all 0.3s;
-      text-decoration: none;
+    .pill {
+      padding: .3rem .85rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.1);
+      font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); text-decoration: none;
+      transition: all .3s;
     }
-    .theme-pill:hover { border-color: rgba(255,255,255,0.4); color: white; }
+    .pill:hover { border-color: rgba(255,255,255,.4); color: white; }
 
     .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: rgba(255,255,255,0.25);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      animation: fadeUp 0.9s ease 1.2s both;
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: rgba(255,255,255,.2); font-size: .62rem;
+      letter-spacing: .2em; text-transform: uppercase;
+      animation: fadeUp .9s ease 1.2s both;
     }
-
     .scroll-bar {
-      width: 1px;
-      height: 50px;
-      background: rgba(255,255,255,0.15);
-      position: relative;
-      overflow: hidden;
+      width: 1px; height: 48px; background: rgba(255,255,255,.12); overflow: hidden;
     }
     .scroll-bar::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 100%;
-      background: rgba(255,255,255,0.5);
-      animation: scrollAnim 2s ease-in-out infinite;
+      content: ''; display: block; width: 100%; height: 100%;
+      background: rgba(255,255,255,.5);
+      animation: scrollDown 2s ease-in-out infinite;
     }
-    @keyframes scrollAnim {
+    @keyframes scrollDown {
       0%   { transform: translateY(-100%); }
       100% { transform: translateY(200%); }
     }
-
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(25px); }
+      from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* =========================================
+    /* ==============================================
        SÉPARATEUR
-    ========================================= */
-    .divider {
+    =============================================== */
+    .sep {
       height: 1px;
-      background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.07) 30%, rgba(255,255,255,0.07) 70%, transparent 100%);
-      margin: 0;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,.06) 30%, rgba(255,255,255,.06) 70%, transparent);
     }
 
-    /* =========================================
-       SECTIONS THÈME
-    ========================================= */
-    .theme-section {
-      padding: 7rem 2.5rem 5rem;
-      position: relative;
-      overflow: hidden;
+    /* ==============================================
+       SECTION THÈME
+    =============================================== */
+    .ts {
+      padding: 7rem 2.5rem 5rem; position: relative; overflow: hidden;
+    }
+    .ts::before {
+      content: ''; position: absolute;
+      width: 700px; height: 700px; border-radius: 50%;
+      filter: blur(130px); top: -100px; left: -150px;
+      opacity: .045; pointer-events: none;
+      background: var(--ac);
     }
 
-    /* Glow de couleur en arrière-plan */
-    .theme-section::before {
-      content: '';
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      filter: blur(120px);
-      top: -100px; left: -100px;
-      opacity: 0.04;
-      pointer-events: none;
-      background: var(--accent);
+    .th {
+      display: grid; grid-template-columns: auto 1fr auto;
+      align-items: start; gap: 1.2rem 1.8rem; margin-bottom: 2.8rem;
     }
-
-    /* En-tête de thème */
-    .theme-header {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: start;
-      gap: 1.5rem 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .theme-num {
+    .th-num {
       font-family: 'Playfair Display', serif;
-      font-size: 7rem;
-      font-weight: 900;
-      line-height: 1;
-      opacity: 0.055;
-      color: white;
-      user-select: none;
+      font-size: 6.5rem; font-weight: 900; line-height: 1;
+      opacity: .05; color: white; user-select: none;
     }
-
-    .theme-info { }
-
-    .theme-tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.4rem;
+    .th-tag {
+      font-size: .68rem; letter-spacing: .32em; text-transform: uppercase;
+      color: var(--ac); margin-bottom: .35rem;
     }
-
-    .theme-title {
+    .th-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      font-weight: 700;
-      line-height: 1.05;
-      margin-bottom: 0.8rem;
+      font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 700; line-height: 1.05;
+      margin-bottom: .7rem;
     }
+    .th-desc { font-size: .88rem; color: var(--dim); max-width: 460px; line-height: 1.78; }
+    .th-bar { width: 38px; height: 2px; background: var(--ac); margin-top: 1.1rem; border-radius: 2px; }
+    .th-count { text-align: right; font-size: .65rem; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); padding-top: .3rem; }
+    .th-count strong { display: block; font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--text); line-height: 1; }
 
-    .theme-desc {
-      font-size: 0.9rem;
-      color: var(--dim);
-      max-width: 480px;
-      line-height: 1.75;
-    }
+    /* ==============================================
+       GRILLE MÉDIA — BASE
+    =============================================== */
+    .mg { display: grid; gap: 9px; }
 
-    .theme-bar {
-      width: 40px; height: 2px;
-      background: var(--accent);
-      margin-top: 1.2rem;
-      border-radius: 2px;
-    }
-
-    .theme-count {
-      text-align: right;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--dim);
-      text-transform: uppercase;
-      padding-top: 0.5rem;
-    }
-    .theme-count strong {
-      display: block;
-      font-size: 2.5rem;
-      font-family: 'Playfair Display', serif;
-      color: var(--text);
-      line-height: 1;
-      font-weight: 700;
-    }
-
-    /* =========================================
-       GRILLE MÉDIA
-    ========================================= */
-    .media-grid {
-      display: grid;
-      gap: 10px;
-    }
-
-    /* Entrée animée des items */
-    .media-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: 3px;
+    /* Item commun */
+    .mi {
+      position: relative; overflow: hidden; border-radius: 3px;
       background: var(--card);
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
+      /* État vide par défaut */
+      border: 1px dashed rgba(255,255,255,.07);
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .55s ease, transform .55s ease, border-color .3s;
     }
-    .media-item.show {
-      opacity: 1;
-      transform: translateY(0);
+    .mi.show { opacity: 1; transform: translateY(0); }
+    .mi:hover { border-color: rgba(255,255,255,.14); }
+
+    /* Label "vide" — visible tant que l'image/vidéo n'est pas là */
+    .mi::before {
+      content: attr(data-slot);
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      /* flex sur ::before ne marche pas → on utilise text-align */
+      text-align: center; padding-top: 42%;
+      color: rgba(255,255,255,.1); font-size: .65rem; letter-spacing: .1em;
+      text-transform: uppercase; line-height: 1.6; pointer-events: none;
+    }
+    /* Astuce : quand img ou video est là on passe z-index 1 */
+    .mi img, .mi video { position: relative; z-index: 1; }
+
+    /* Photo */
+    .mi img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .65s cubic-bezier(.25,.46,.45,.94);
+    }
+    .mi:hover img { transform: scale(1.06); }
+
+    /* Overlay survol */
+    .ov {
+      position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 55%);
+      opacity: 0; transition: opacity .35s;
+      display: flex; align-items: flex-end; padding: .9rem;
+    }
+    .mi:hover .ov { opacity: 1; }
+    .ov-label {
+      font-size: .58rem; letter-spacing: .07em; text-transform: uppercase;
+      color: rgba(255,255,255,.65); background: rgba(0,0,0,.5);
+      padding: .2rem .55rem; border-radius: 3px;
+      border: 1px solid rgba(255,255,255,.08);
     }
 
-    .media-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Vidéo */
+    .mi video {
+      width: 100%; height: 100%; object-fit: cover; display: none;
     }
-    .media-item:hover img { transform: scale(1.06); }
+    .mi.vid-ok video { display: block; }
+    .mi.vid-ok .vph { display: none !important; }
 
-    /* Overlay survol photo */
-    .photo-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      display: flex;
-      align-items: flex-end;
-      padding: 1rem;
+    /* Placeholder vidéo */
+    .vph {
+      position: absolute; inset: 0; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: .9rem; text-align: center; padding: 1.5rem;
     }
-    .media-item:hover .photo-overlay { opacity: 1; }
-
-    .replace-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.65);
-      background: rgba(0,0,0,0.55);
-      padding: 0.25rem 0.6rem;
-      border-radius: 3px;
-      text-transform: uppercase;
-      border: 1px solid rgba(255,255,255,0.1);
+    .vbtn {
+      width: 54px; height: 54px; border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(255,255,255,.18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: rgba(255,255,255,.55); flex-shrink: 0;
+      animation: pulse 2.5s ease-in-out infinite;
     }
-
-    /* =========================================
-       PLACEHOLDER VIDÉO
-    ========================================= */
-    .video-wrap {
-      width: 100%;
-      height: 100%;
-      min-height: 200px;
-      position: relative;
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0   rgba(255,255,255,.07); }
+      50%      { box-shadow: 0 0 0 12px rgba(255,255,255,.0); }
+    }
+    .vtext { font-size: .72rem; color: rgba(255,255,255,.35); line-height: 1.5; }
+    .vtext strong { display: block; color: rgba(255,255,255,.5); margin-bottom: .25rem; font-size: .75rem; }
+    .vcode {
+      display: inline-block; margin-top: .4rem;
+      font-family: monospace; font-size: .58rem;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      padding: .2rem .5rem; border-radius: 3px; color: rgba(255,255,255,.25);
     }
 
-    .video-ph {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      text-align: center;
-      padding: 1.5rem;
-      background: #0a0a0a;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-      background-size: 32px 32px;
-      border: 1.5px dashed rgba(255,255,255,0.1);
-      transition: border-color 0.3s;
-    }
-    .media-item:hover .video-ph { border-color: rgba(255,255,255,0.25); }
+    /* ==============================================
+       GRILLES PAR THÈME
+    =============================================== */
 
-    .vph-btn {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.06);
-      border: 1.5px solid rgba(255,255,255,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      color: rgba(255,255,255,0.6);
-      flex-shrink: 0;
-      animation: vphPulse 2.5s ease-in-out infinite;
-    }
-    @keyframes vphPulse {
-      0%, 100% { box-shadow: 0 0 0 0   rgba(255,255,255,0.08); }
-      50%       { box-shadow: 0 0 0 12px rgba(255,255,255,0); }
-    }
-
-    .vph-text {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.5;
-    }
-    .vph-text strong {
-      display: block;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 0.3rem;
-      font-size: 0.8rem;
-    }
-    .vph-code {
-      margin-top: 0.5rem;
-      font-family: monospace;
-      font-size: 0.62rem;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 0.3rem 0.6rem;
-      border-radius: 3px;
-      color: rgba(255,255,255,0.3);
-      display: inline-block;
-    }
-
-    /* =========================================
-       GRILLES SPÉCIFIQUES PAR THÈME
-    ========================================= */
-
-    /* — THÈME 1 · Nature — */
-    #t1 { --accent: var(--t1); }
-    #t1 .media-grid {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 290px 290px;
-    }
+    /* T1 — Ambiance Hivernal : tall gauche + grille droite */
+    #t1 { --ac: var(--t1); }
+    #t1 .mg { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 295px 295px; }
     #t1 .i1 { grid-column: 1; grid-row: 1 / 3; }
     #t1 .i2 { grid-column: 2; grid-row: 1; }
     #t1 .i3 { grid-column: 3; grid-row: 1; }
-    #t1 .i4 { grid-column: 2; grid-row: 2; }
+    #t1 .i4 { grid-column: 2; grid-row: 2; }  /* vidéo */
     #t1 .i5 { grid-column: 3; grid-row: 2; }
 
-    /* — THÈME 2 · Architecture — */
-    #t2 { --accent: var(--t2); }
-    #t2 .media-grid {
-      grid-template-columns: 2fr 1fr 1fr;
-      grid-template-rows: 240px 240px;
-    }
-    #t2 .i1 { grid-column: 1; grid-row: 1 / 3; }
-    #t2 .i2 { grid-column: 2; grid-row: 1; }
-    #t2 .i3 { grid-column: 3; grid-row: 1; }
-    #t2 .i4 { grid-column: 2 / 4; grid-row: 2; }
+    /* T2 — Douce Mélodie : centre tall + latéraux */
+    #t2 { --ac: var(--t2); }
+    #t2 .mg { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 300px 270px; }
+    #t2 .i1 { grid-column: 1; grid-row: 1; }
+    #t2 .i2 { grid-column: 2; grid-row: 1 / 3; }  /* tall centre */
+    #t2 .i3 { grid-column: 3; grid-row: 1; }       /* vidéo */
+    #t2 .i4 { grid-column: 1; grid-row: 2; }
+    #t2 .i5 { grid-column: 3; grid-row: 2; }
 
-    /* — THÈME 3 · Portrait — */
-    #t3 { --accent: var(--t3); }
-    #t3 .media-grid {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 360px 240px;
-    }
-    #t3 .i1 { grid-column: 1; grid-row: 1; }
-    #t3 .i2 { grid-column: 2; grid-row: 1 / 3; }
-    #t3 .i3 { grid-column: 3; grid-row: 1; }
-    #t3 .i4 { grid-column: 1; grid-row: 2; }
-    #t3 .i5 { grid-column: 3; grid-row: 2; }
-    #t3 .i6 { grid-column: 1 / 4; grid-row: 3; height: 200px; }
+    /* T3 — Interview : chequerboard photo/vidéo */
+    #t3 { --ac: var(--t3); }
+    #t3 .mg { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 275px 275px; }
+    #t3 .i1 { grid-column: 1;     grid-row: 1; }
+    #t3 .i2 { grid-column: 2;     grid-row: 1; }   /* vidéo 1 */
+    #t3 .i3 { grid-column: 3;     grid-row: 1; }
+    #t3 .i4 { grid-column: 1 / 3; grid-row: 2; }   /* vidéo 2 large */
+    #t3 .i5 { grid-column: 3;     grid-row: 2; }
 
-    /* — THÈME 4 · Sport — */
-    #t4 { --accent: var(--t4); }
-    #t4 .media-grid {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 230px 230px;
-    }
-    #t4 .i1 { grid-column: 1 / 3; grid-row: 1; }
-    #t4 .i2 { grid-column: 3;     grid-row: 1; }
-    #t4 .i3 { grid-column: 1;     grid-row: 2; }
+    /* T4 — Lac & Mouvement : tout photos, masonry */
+    #t4 { --ac: var(--t4); }
+    #t4 .mg { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 285px 285px; }
+    #t4 .i1 { grid-column: 1;     grid-row: 1 / 3; }  /* tall */
+    #t4 .i2 { grid-column: 2;     grid-row: 1; }
+    #t4 .i3 { grid-column: 3;     grid-row: 1; }
     #t4 .i4 { grid-column: 2;     grid-row: 2; }
     #t4 .i5 { grid-column: 3;     grid-row: 2; }
 
-    /* — THÈME 5 · Art — */
-    #t5 { --accent: var(--t5); }
-    #t5 .media-grid {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 210px 210px 210px;
-    }
-    #t5 .i1 { grid-column: 1;     grid-row: 1 / 3; }
-    #t5 .i2 { grid-column: 2;     grid-row: 1; }
-    #t5 .i3 { grid-column: 3 / 5; grid-row: 1; }
-    #t5 .i4 { grid-column: 2 / 4; grid-row: 2; }
-    #t5 .i5 { grid-column: 4;     grid-row: 2; }
-    #t5 .i6 { grid-column: 1 / 5; grid-row: 3; }
+    /* T5 — L'Image en Action : panoramique + grille */
+    #t5 { --ac: var(--t5); }
+    #t5 .mg { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 255px 255px; }
+    #t5 .i1 { grid-column: 1 / 3; grid-row: 1; }  /* large */
+    #t5 .i2 { grid-column: 3;     grid-row: 1; }
+    #t5 .i3 { grid-column: 1;     grid-row: 2; }
+    #t5 .i4 { grid-column: 2;     grid-row: 2; }
+    #t5 .i5 { grid-column: 3;     grid-row: 2; }
 
-    /* — THÈME 6 · Voyage — */
-    #t6 { --accent: var(--t6); }
-    #t6 .media-grid {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: 310px 220px;
-    }
-    #t6 .i1 { grid-column: 1 / 3; grid-row: 1; }
+    /* T6 — Nature Mouvement : vidéo large haut + photos bas */
+    #t6 { --ac: var(--t6); }
+    #t6 .mg { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 280px 260px; }
+    #t6 .i1 { grid-column: 1 / 3; grid-row: 1; }  /* vidéo large */
     #t6 .i2 { grid-column: 3;     grid-row: 1; }
-    #t6 .i3 { grid-column: 4;     grid-row: 1; }
-    #t6 .i4 { grid-column: 1;     grid-row: 2; }
-    #t6 .i5 { grid-column: 2;     grid-row: 2; }
-    #t6 .i6 { grid-column: 3 / 5; grid-row: 2; }
+    #t6 .i3 { grid-column: 1;     grid-row: 2; }
+    #t6 .i4 { grid-column: 2;     grid-row: 2; }
+    #t6 .i5 { grid-column: 3;     grid-row: 2; }
 
-    /* — THÈME 7 · Événements — */
-    #t7 { --accent: var(--t7); }
-    #t7 .media-grid {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 270px 270px;
-    }
-    #t7 .i1 { grid-column: 1;     grid-row: 1; }
-    #t7 .i2 { grid-column: 2 / 4; grid-row: 1; }
-    #t7 .i3 { grid-column: 1 / 3; grid-row: 2; }
-    #t7 .i4 { grid-column: 3;     grid-row: 2; }
+    /* T7 — Vitesse : tall gauche + large haut + grille bas */
+    #t7 { --ac: var(--t7); }
+    #t7 .mg { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 295px 295px; }
+    #t7 .i1 { grid-column: 1;     grid-row: 1 / 3; }  /* tall */
+    #t7 .i2 { grid-column: 2 / 4; grid-row: 1; }      /* large */
+    #t7 .i3 { grid-column: 2;     grid-row: 2; }
+    #t7 .i4 { grid-column: 3;     grid-row: 2; }       /* vidéo */
 
-    /* =========================================
+    /* ==============================================
        FOOTER
-    ========================================= */
+    =============================================== */
     footer {
-      padding: 6rem 2.5rem 3rem;
-      text-align: center;
-      position: relative;
+      padding: 6rem 2.5rem 3rem; text-align: center; position: relative;
     }
-
     footer::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 50%;
+      content: ''; position: absolute; top: 0; left: 50%;
       transform: translateX(-50%);
-      width: 1px;
-      height: 5rem;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.12), transparent);
+      width: 1px; height: 5rem;
+      background: linear-gradient(to bottom, rgba(255,255,255,.1), transparent);
     }
-
-    .footer-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 1.2rem;
-    }
-
-    .footer-name {
+    .ft-label { font-size: .68rem; letter-spacing: .35em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+    .ft-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 900;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 900; margin-bottom: .5rem;
+      background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(255,255,255,.25));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .ft-sub { color: var(--dim); font-size: .88rem; line-height: 1.75; margin-bottom: 2.2rem; }
+    .ft-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 2rem; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.16); color: white;
+      text-decoration: none; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+      transition: all .35s;
+    }
+    .ft-btn:hover { background: white; color: black; border-color: white; }
+    .ft-bottom {
+      margin-top: 5rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,.04);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .68rem; color: rgba(255,255,255,.15); letter-spacing: .04em;
     }
 
-    .footer-sub {
-      color: var(--dim);
-      font-size: 0.9rem;
-      margin-bottom: 2.5rem;
-      line-height: 1.7;
-    }
-
-    .footer-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.8rem 2.2rem;
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 100px;
-      color: white;
-      text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: all 0.35s ease;
-    }
-    .footer-cta:hover {
-      background: white;
-      color: black;
-      border-color: white;
-    }
-
-    .footer-bottom {
-      margin-top: 5rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.18);
-      letter-spacing: 0.05em;
-    }
-
-    /* =========================================
-       LIGHTBOX
-    ========================================= */
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.95);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-    .lightbox.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 3px;
-      transform: scale(0.95);
-      transition: transform 0.3s ease;
-    }
-    .lightbox.open img { transform: scale(1); }
-
-    .lb-close {
-      position: absolute;
-      top: 1.5rem; right: 1.5rem;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: white;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .lb-close:hover { background: rgba(255,255,255,0.18); }
-
-    /* =========================================
+    /* ==============================================
        RESPONSIVE
-    ========================================= */
+    =============================================== */
     @media (max-width: 900px) {
-      #t1 .media-grid,
-      #t2 .media-grid,
-      #t3 .media-grid,
-      #t4 .media-grid,
-      #t5 .media-grid,
-      #t6 .media-grid,
-      #t7 .media-grid {
+      .side-nav { display: none; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: .65rem; }
+      .th { grid-template-columns: auto 1fr; }
+      .th-count { display: none; }
+      #t1 .mg, #t2 .mg, #t3 .mg, #t4 .mg, #t5 .mg, #t6 .mg, #t7 .mg {
         grid-template-columns: 1fr 1fr !important;
         grid-template-rows: auto !important;
       }
-      .media-item {
-        grid-column: auto !important;
-        grid-row: auto !important;
-        height: 220px !important;
-      }
-      .theme-header {
-        grid-template-columns: 1fr !important;
-      }
-      .theme-num { font-size: 4rem; }
-      .side-nav { display: none; }
+      .mi { grid-column: auto !important; grid-row: auto !important; height: 220px !important; }
     }
-
-    @media (max-width: 600px) {
-      #t1 .media-grid,
-      #t2 .media-grid,
-      #t3 .media-grid,
-      #t4 .media-grid,
-      #t5 .media-grid,
-      #t6 .media-grid,
-      #t7 .media-grid {
+    @media (max-width: 580px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { display: none; }
+      .ts { padding: 4.5rem 1.2rem 3rem; }
+      #t1 .mg, #t2 .mg, #t3 .mg, #t4 .mg, #t5 .mg, #t6 .mg, #t7 .mg {
         grid-template-columns: 1fr !important;
       }
-      .theme-section { padding: 5rem 1.2rem 3rem; }
-      nav { padding: 1rem 1.2rem; }
+      .mi { height: 260px !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Curseur personnalisé -->
-  <div class="cursor" id="cur"></div>
-  <div class="cursor-ring" id="curR"></div>
+  <!-- Curseur -->
+  <div class="cur"     id="cur"></div>
+  <div class="cur-ring" id="curR"></div>
 
-  <!-- =============================================
-       LIGHTBOX
-  ============================================== -->
-  <div class="lightbox" id="lightbox">
-    <button class="lb-close" id="lbClose">✕</button>
-    <img src="" alt="" id="lbImg">
+  <!-- Lightbox -->
+  <div id="lb">
+    <button id="lb-close">✕</button>
+    <img src="" alt="" id="lb-img">
   </div>
 
-  <!-- =============================================
-       NAVIGATION TOP
-  ============================================== -->
+  <!-- ══════════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════════ -->
   <nav>
-    <a href="#hero" class="nav-logo">Saitawan</a>
+    <a href="#hero" class="logo">Saitawan</a>
     <ul class="nav-links">
-      <li><a href="#t1">Nature</a></li>
-      <li><a href="#t2">Architecture</a></li>
-      <li><a href="#t3">Portrait</a></li>
-      <li><a href="#t4">Sport</a></li>
-      <li><a href="#t5">Art</a></li>
-      <li><a href="#t6">Voyage</a></li>
-      <li><a href="#t7">Événements</a></li>
+      <li><a href="#t1">Hivernal</a></li>
+      <li><a href="#t2">Mélodie</a></li>
+      <li><a href="#t3">Interview</a></li>
+      <li><a href="#t4">Lac</a></li>
+      <li><a href="#t5">Action</a></li>
+      <li><a href="#t6">Nature</a></li>
+      <li><a href="#t7">Vitesse</a></li>
     </ul>
   </nav>
 
-  <!-- =============================================
-       NAVIGATION LATÉRALE
-  ============================================== -->
+  <!-- Dots -->
   <div class="side-nav" id="sideNav">
-    <div class="dot active" data-href="#hero" data-label="Accueil"></div>
-    <div class="dot" data-href="#t1"   data-label="01 · Nature"></div>
-    <div class="dot" data-href="#t2"   data-label="02 · Architecture"></div>
-    <div class="dot" data-href="#t3"   data-label="03 · Portrait"></div>
-    <div class="dot" data-href="#t4"   data-label="04 · Sport"></div>
-    <div class="dot" data-href="#t5"   data-label="05 · Art"></div>
-    <div class="dot" data-href="#t6"   data-label="06 · Voyage"></div>
-    <div class="dot" data-href="#t7"   data-label="07 · Événements"></div>
+    <div class="dot on"  data-href="#hero" data-label="Accueil"></div>
+    <div class="dot" data-href="#t1" data-label="01 · Ambiance Hivernal"></div>
+    <div class="dot" data-href="#t2" data-label="02 · Douce Mélodie"></div>
+    <div class="dot" data-href="#t3" data-label="03 · Interview"></div>
+    <div class="dot" data-href="#t4" data-label="04 · Lac &amp; Mouvement"></div>
+    <div class="dot" data-href="#t5" data-label="05 · L'Image en Action"></div>
+    <div class="dot" data-href="#t6" data-label="06 · Nature Mouvement"></div>
+    <div class="dot" data-href="#t7" data-label="07 · Vitesse"></div>
   </div>
 
-  <!-- =============================================
+  <!-- ══════════════════════════════════════════════
        HERO
-  ============================================== -->
+  ═══════════════════════════════════════════════ -->
   <section id="hero">
     <div class="hero-bg">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
+      <div class="orb o1"></div>
+      <div class="orb o2"></div>
+      <div class="orb o3"></div>
     </div>
-
-    <div class="hero-content">
-      <p class="hero-eyebrow">Portfolio · Photographie &amp; Vidéo · 2024</p>
-      <h1 class="hero-title">
-        Saitawan
-        <em>Visuals</em>
-      </h1>
+    <div class="hero-inner">
+      <p class="hero-eye">Portfolio · Photographie &amp; Vidéo · 2024</p>
+      <h1 class="hero-title">Saitawan<em>Visuals</em></h1>
       <p class="hero-sub">
-        Sept thèmes, une vision. Un voyage visuel à travers la nature, les villes, les visages et les émotions — capturés photo après photo.
+        Sept regards sur le monde. De la douceur hivernale à la puissance de la vitesse,
+        du calme des lacs à l'énergie de l'action — une vision photographique unique.
       </p>
-      <div class="hero-themes">
-        <a href="#t1" class="theme-pill">Nature</a>
-        <a href="#t2" class="theme-pill">Architecture</a>
-        <a href="#t3" class="theme-pill">Portrait</a>
-        <a href="#t4" class="theme-pill">Sport</a>
-        <a href="#t5" class="theme-pill">Art</a>
-        <a href="#t6" class="theme-pill">Voyage</a>
-        <a href="#t7" class="theme-pill">Événements</a>
+      <div class="pills">
+        <a href="#t1" class="pill">Ambiance Hivernal</a>
+        <a href="#t2" class="pill">Douce Mélodie</a>
+        <a href="#t3" class="pill">Interview</a>
+        <a href="#t4" class="pill">Lac &amp; Mouvement</a>
+        <a href="#t5" class="pill">L'Image en Action</a>
+        <a href="#t6" class="pill">Nature Mouvement</a>
+        <a href="#t7" class="pill">Vitesse</a>
       </div>
     </div>
-
     <div class="hero-scroll">
       <span>Défiler</span>
       <div class="scroll-bar"></div>
     </div>
   </section>
 
-  <!-- =============================================
-       THÈME 1 — NATURE & PAYSAGES
-  ============================================== -->
-  <div class="divider"></div>
-  <section class="theme-section" id="t1">
-    <div class="theme-header">
-      <span class="theme-num">01</span>
-      <div class="theme-info">
-        <p class="theme-tag">Nature &amp; Environnement</p>
-        <h2 class="theme-title">Paysages</h2>
-        <p class="theme-desc">La beauté sauvage capturée dans toute sa splendeur — forêts profondes, cimes enneigées, lacs cristallins et horizons sans fin.</p>
-        <div class="theme-bar"></div>
+  <!-- ══════════════════════════════════════════════
+       T1 — AMBIANCE HIVERNAL
+       Photos  → photos/ambiance hivernal/photo1.jpg … photo4.jpg
+       Vidéo   → videos/ambiance-hivernal/video1.mp4
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t1">
+    <div class="th">
+      <span class="th-num">01</span>
+      <div>
+        <p class="th-tag">Hiver &amp; Atmosphère</p>
+        <h2 class="th-title">Ambiance Hivernal</h2>
+        <p class="th-desc">La magie silencieuse de l'hiver — givre cristallisé, brumes matinales et paysages immaculés qui invitent à la contemplation.</p>
+        <div class="th-bar"></div>
       </div>
-      <div class="theme-count">
-        Médias<strong>5</strong>4 photos · 1 vidéo
-      </div>
+      <div class="th-count">Médias<strong>5</strong>4 photos · 1 vidéo</div>
     </div>
+    <div class="mg">
 
-    <div class="media-grid">
-
-      <!-- ══════════════════════════════════════════
-           📸 PHOTO 1 — Grande photo verticale (gauche)
-           → Remplacez src="..." par le chemin de votre image
-           → Exemple : src="photos/nature/foret.jpg"
-      ══════════════════════════════════════════ -->
-      <div class="media-item i1">
-        <img src="https://picsum.photos/seed/saitawan-n1/800/1200" alt="Forêt — photo 1">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo1.jpg — grande verticale gauche -->
+      <div class="mi i1" data-slot="📸 photo1.jpg">
+        <img src="photos/ambiance hivernal/photo1.jpg" alt="Ambiance Hivernal — photo 1"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo1.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 2 — Haut droite
-           → src="photos/nature/montagne.jpg" -->
-      <div class="media-item i2">
-        <img src="https://picsum.photos/seed/saitawan-n2/800/600" alt="Montagne — photo 2">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo2.jpg -->
+      <div class="mi i2" data-slot="📸 photo2.jpg">
+        <img src="photos/ambiance hivernal/photo2.jpg" alt="Ambiance Hivernal — photo 2"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo2.jpg</span></div>
       </div>
 
-      <!-- 🎬 VIDÉO 1 — Haut droite (coin)
-           → Pour ajouter votre vidéo, remplacez tout le div.video-wrap par :
-              <video src="videos/nature/timelapse.mp4" controls poster="previews/nature1.jpg" style="width:100%;height:100%;object-fit:cover;"></video>
-      -->
-      <div class="media-item i3">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Timelapse · Drone · Nature
-              <span class="vph-code">&lt;video src="nature.mp4"&gt;</span>
-            </div>
+      <!-- photo3.jpg -->
+      <div class="mi i3" data-slot="📸 photo3.jpg">
+        <img src="photos/ambiance hivernal/photo3.jpg" alt="Ambiance Hivernal — photo 3"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo3.jpg</span></div>
+      </div>
+
+      <!-- VIDEO — video1.mp4 -->
+      <div class="mi i4" data-slot="">
+        <video preload="metadata" controls
+               poster="photos/ambiance hivernal/photo1.jpg">
+          <source src="videos/ambiance-hivernal/video1.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtext">
+            <strong>🎬 Votre vidéo</strong>
+            Ajoutez le fichier :<span class="vcode">videos/ambiance-hivernal/video1.mp4</span>
           </div>
         </div>
       </div>
 
-      <!-- 📸 PHOTO 3 — Bas milieu
-           → src="photos/nature/lac.jpg" -->
-      <div class="media-item i4">
-        <img src="https://picsum.photos/seed/saitawan-n3/800/600" alt="Lac — photo 3">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 📸 PHOTO 4 — Bas droite
-           → src="photos/nature/fleurs.jpg" -->
-      <div class="media-item i5">
-        <img src="https://picsum.photos/seed/saitawan-n4/800/600" alt="Fleurs — photo 4">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo4.jpg -->
+      <div class="mi i5" data-slot="📸 photo4.jpg">
+        <img src="photos/ambiance hivernal/photo4.jpg" alt="Ambiance Hivernal — photo 4"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo4.jpg</span></div>
       </div>
 
     </div>
   </section>
 
-  <!-- =============================================
-       THÈME 2 — ARCHITECTURE & URBAIN
-  ============================================== -->
-  <div class="divider"></div>
-  <section class="theme-section" id="t2">
-    <div class="theme-header">
-      <span class="theme-num">02</span>
-      <div class="theme-info">
-        <p class="theme-tag">Architecture &amp; Urbain</p>
-        <h2 class="theme-title">Structures</h2>
-        <p class="theme-desc">Lignes, volumes et lumières — l'architecture révèle la beauté cachée des espaces construits, des façades aux intérieurs.</p>
-        <div class="theme-bar"></div>
+  <!-- ══════════════════════════════════════════════
+       T2 — DOUCE MÉLODIE
+       Photos  → photos/douce-melodie/photo1.jpg … photo4.jpg
+       Vidéo   → videos/douce-melodie/video1.mp4
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t2">
+    <div class="th">
+      <span class="th-num">02</span>
+      <div>
+        <p class="th-tag">Musique &amp; Émotion</p>
+        <h2 class="th-title">Douce Mélodie</h2>
+        <p class="th-desc">Là où la photographie rencontre la musique — des images rythmées par les émotions, la douceur et la poésie du quotidien.</p>
+        <div class="th-bar"></div>
       </div>
-      <div class="theme-count">
-        Médias<strong>4</strong>3 photos · 1 vidéo
-      </div>
+      <div class="th-count">Médias<strong>5</strong>4 photos · 1 vidéo</div>
     </div>
+    <div class="mg">
 
-    <div class="media-grid">
-
-      <!-- 📸 PHOTO 1 — Grande photo (gauche, pleine hauteur)
-           → src="photos/archi/immeuble.jpg" -->
-      <div class="media-item i1">
-        <img src="https://picsum.photos/seed/saitawan-a1/800/1200" alt="Immeuble — photo 1">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo1.jpg -->
+      <div class="mi i1" data-slot="📸 photo1.jpg">
+        <img src="photos/douce-melodie/photo1.jpg" alt="Douce Mélodie — photo 1"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo1.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 2 — Haut droite
-           → src="photos/archi/pont.jpg" -->
-      <div class="media-item i2">
-        <img src="https://picsum.photos/seed/saitawan-a2/600/500" alt="Pont — photo 2">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo2.jpg — tall centre -->
+      <div class="mi i2" data-slot="📸 photo2.jpg">
+        <img src="photos/douce-melodie/photo2.jpg" alt="Douce Mélodie — photo 2"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo2.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 3 — Milieu droite
-           → src="photos/archi/interieur.jpg" -->
-      <div class="media-item i3">
-        <img src="https://picsum.photos/seed/saitawan-a3/600/500" alt="Intérieur — photo 3">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 🎬 VIDÉO 1 — Bandeau bas large
-           → <video src="videos/archi/ville-nuit.mp4" controls poster="previews/archi1.jpg" style="width:100%;height:100%;object-fit:cover;"></video> -->
-      <div class="media-item i4">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Ville de nuit · Hyperlapse · Walk
-              <span class="vph-code">&lt;video src="urbain.mp4"&gt;</span>
-            </div>
+      <!-- VIDEO — video1.mp4 -->
+      <div class="mi i3" data-slot="">
+        <video preload="metadata" controls
+               poster="photos/douce-melodie/photo1.jpg">
+          <source src="videos/douce-melodie/video1.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtext">
+            <strong>🎬 Votre vidéo</strong>
+            Ajoutez le fichier :<span class="vcode">videos/douce-melodie/video1.mp4</span>
           </div>
         </div>
+      </div>
+
+      <!-- photo3.jpg -->
+      <div class="mi i4" data-slot="📸 photo3.jpg">
+        <img src="photos/douce-melodie/photo3.jpg" alt="Douce Mélodie — photo 3"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo3.jpg</span></div>
+      </div>
+
+      <!-- photo4.jpg -->
+      <div class="mi i5" data-slot="📸 photo4.jpg">
+        <img src="photos/douce-melodie/photo4.jpg" alt="Douce Mélodie — photo 4"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo4.jpg</span></div>
       </div>
 
     </div>
   </section>
 
-  <!-- =============================================
-       THÈME 3 — PORTRAIT & LIFESTYLE
-  ============================================== -->
-  <div class="divider"></div>
-  <section class="theme-section" id="t3">
-    <div class="theme-header">
-      <span class="theme-num">03</span>
-      <div class="theme-info">
-        <p class="theme-tag">Portrait &amp; Lifestyle</p>
-        <h2 class="theme-title">Visages</h2>
-        <p class="theme-desc">Chaque regard raconte une histoire. Portraits intimes, expressions authentiques, instants de vie capturés avec sensibilité.</p>
-        <div class="theme-bar"></div>
+  <!-- ══════════════════════════════════════════════
+       T3 — INTERVIEW
+       Photos  → photos/interview/photo1.jpg … photo3.jpg
+       Vidéos  → videos/interview/video1.mp4 + video2.mp4
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t3">
+    <div class="th">
+      <span class="th-num">03</span>
+      <div>
+        <p class="th-tag">Dialogue &amp; Vérité</p>
+        <h2 class="th-title">Interview</h2>
+        <p class="th-desc">Capturer l'instant de vérité — portraits en situation, regards sincères et la puissance du dialogue figé en image.</p>
+        <div class="th-bar"></div>
       </div>
-      <div class="theme-count">
-        Médias<strong>6</strong>4 photos · 2 vidéos
-      </div>
+      <div class="th-count">Médias<strong>5</strong>3 photos · 2 vidéos</div>
     </div>
+    <div class="mg">
 
-    <div class="media-grid">
-
-      <!-- 📸 PHOTO 1 — Haut gauche
-           → src="photos/portrait/femme1.jpg" -->
-      <div class="media-item i1">
-        <img src="https://picsum.photos/seed/saitawan-p1/600/700" alt="Portrait — photo 1">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo1.jpg -->
+      <div class="mi i1" data-slot="📸 photo1.jpg">
+        <img src="photos/interview/photo1.jpg" alt="Interview — photo 1"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo1.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 2 — Centre (pleine hauteur)
-           → src="photos/portrait/profil.jpg" -->
-      <div class="media-item i2">
-        <img src="https://picsum.photos/seed/saitawan-p2/600/1000" alt="Portrait — photo 2">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 📸 PHOTO 3 — Haut droite
-           → src="photos/portrait/regard.jpg" -->
-      <div class="media-item i3">
-        <img src="https://picsum.photos/seed/saitawan-p3/600/700" alt="Portrait — photo 3">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 🎬 VIDÉO 1 — Bas gauche
-           → <video src="videos/portrait/lifestyle.mp4" controls ...></video> -->
-      <div class="media-item i4">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Lifestyle · Cinématique
-              <span class="vph-code">&lt;video src="portrait.mp4"&gt;</span>
-            </div>
+      <!-- VIDEO 1 — video1.mp4 -->
+      <div class="mi i2" data-slot="">
+        <video preload="metadata" controls
+               poster="photos/interview/photo1.jpg">
+          <source src="videos/interview/video1.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtext">
+            <strong>🎬 Vidéo 1</strong>
+            Ajoutez le fichier :<span class="vcode">videos/interview/video1.mp4</span>
           </div>
         </div>
       </div>
 
-      <!-- 🎬 VIDÉO 2 — Bas droite
-           → <video src="videos/portrait/teaser.mp4" controls ...></video> -->
-      <div class="media-item i5">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Teaser · Behind the scenes
-              <span class="vph-code">&lt;video src="teaser.mp4"&gt;</span>
-            </div>
+      <!-- photo2.jpg -->
+      <div class="mi i3" data-slot="📸 photo2.jpg">
+        <img src="photos/interview/photo2.jpg" alt="Interview — photo 2"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo2.jpg</span></div>
+      </div>
+
+      <!-- VIDEO 2 — video2.mp4 (large) -->
+      <div class="mi i4" data-slot="">
+        <video preload="metadata" controls
+               poster="photos/interview/photo2.jpg">
+          <source src="videos/interview/video2.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtext">
+            <strong>🎬 Vidéo 2</strong>
+            Ajoutez le fichier :<span class="vcode">videos/interview/video2.mp4</span>
           </div>
         </div>
       </div>
 
-      <!-- 📸 PHOTO 4 — Bandeau bas (full width)
-           → src="photos/portrait/groupe.jpg" -->
-      <div class="media-item i6">
-        <img src="https://picsum.photos/seed/saitawan-p4/1400/600" alt="Portrait groupe — photo 4">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo3.jpg -->
+      <div class="mi i5" data-slot="📸 photo3.jpg">
+        <img src="photos/interview/photo3.jpg" alt="Interview — photo 3"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo3.jpg</span></div>
       </div>
 
     </div>
   </section>
 
-  <!-- =============================================
-       THÈME 4 — SPORT & ACTION
-  ============================================== -->
-  <div class="divider"></div>
-  <section class="theme-section" id="t4">
-    <div class="theme-header">
-      <span class="theme-num">04</span>
-      <div class="theme-info">
-        <p class="theme-tag">Sport &amp; Action</p>
-        <h2 class="theme-title">Mouvement</h2>
-        <p class="theme-desc">La fraction de seconde où tout se joue — vitesse, puissance, dépassement de soi. Le sport sublimé par l'objectif.</p>
-        <div class="theme-bar"></div>
+  <!-- ══════════════════════════════════════════════
+       T4 — LAC & MOUVEMENT
+       Photos seulement → photos/lac mouvement/photo1.jpg … photo5.jpg
+       (pas de dossier vidéo pour ce thème)
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t4">
+    <div class="th">
+      <span class="th-num">04</span>
+      <div>
+        <p class="th-tag">Eau &amp; Réflexion</p>
+        <h2 class="th-title">Lac &amp; Mouvement</h2>
+        <p class="th-desc">L'eau comme miroir du monde — reflets, ondulations et la beauté hypnotique de la nature en perpétuel mouvement.</p>
+        <div class="th-bar"></div>
       </div>
-      <div class="theme-count">
-        Médias<strong>5</strong>4 photos · 1 vidéo
-      </div>
+      <div class="th-count">Médias<strong>5</strong>5 photos</div>
     </div>
+    <div class="mg">
 
-    <div class="media-grid">
-
-      <!-- 📸 PHOTO 1 — Large panoramique
-           → src="photos/sport/course.jpg" -->
-      <div class="media-item i1">
-        <img src="https://picsum.photos/seed/saitawan-s1/1200/600" alt="Course — photo 1">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo1.jpg — tall gauche -->
+      <div class="mi i1" data-slot="📸 photo1.jpg">
+        <img src="photos/lac mouvement/photo1.jpg" alt="Lac & Mouvement — photo 1"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo1.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 2 — Haut droite
-           → src="photos/sport/saut.jpg" -->
-      <div class="media-item i2">
-        <img src="https://picsum.photos/seed/saitawan-s2/600/600" alt="Saut — photo 2">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo2.jpg -->
+      <div class="mi i2" data-slot="📸 photo2.jpg">
+        <img src="photos/lac mouvement/photo2.jpg" alt="Lac & Mouvement — photo 2"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo2.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 3 — Bas gauche
-           → src="photos/sport/ballon.jpg" -->
-      <div class="media-item i3">
-        <img src="https://picsum.photos/seed/saitawan-s3/600/600" alt="Sport — photo 3">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo3.jpg -->
+      <div class="mi i3" data-slot="📸 photo3.jpg">
+        <img src="photos/lac mouvement/photo3.jpg" alt="Lac & Mouvement — photo 3"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo3.jpg</span></div>
       </div>
 
-      <!-- 🎬 VIDÉO 1 — Bas centre
-           → <video src="videos/sport/action.mp4" controls ...></video> -->
-      <div class="media-item i4">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Highlight · Slowmotion · Action
-              <span class="vph-code">&lt;video src="sport.mp4"&gt;</span>
-            </div>
-          </div>
-        </div>
+      <!-- photo4.jpg -->
+      <div class="mi i4" data-slot="📸 photo4.jpg">
+        <img src="photos/lac mouvement/photo4.jpg" alt="Lac & Mouvement — photo 4"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo4.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 4 — Bas droite
-           → src="photos/sport/victoire.jpg" -->
-      <div class="media-item i5">
-        <img src="https://picsum.photos/seed/saitawan-s4/600/600" alt="Victoire — photo 4">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo5.jpg -->
+      <div class="mi i5" data-slot="📸 photo5.jpg">
+        <img src="photos/lac mouvement/photo5.jpg" alt="Lac & Mouvement — photo 5"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo5.jpg</span></div>
       </div>
 
     </div>
   </section>
 
-  <!-- =============================================
-       THÈME 5 — ART & CRÉATIF
-  ============================================== -->
-  <div class="divider"></div>
-  <section class="theme-section" id="t5">
-    <div class="theme-header">
-      <span class="theme-num">05</span>
-      <div class="theme-info">
-        <p class="theme-tag">Art &amp; Créatif</p>
-        <h2 class="theme-title">Création</h2>
-        <p class="theme-desc">Art urbain, installations, oeuvres numériques, performances — là où la créativité humaine repousse ses propres limites.</p>
-        <div class="theme-bar"></div>
+  <!-- ══════════════════════════════════════════════
+       T5 — L'IMAGE EN ACTION
+       Photos seulement → photos/l'image action/photo1.jpg … photo5.jpg
+       (pas de dossier vidéo pour ce thème)
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t5">
+    <div class="th">
+      <span class="th-num">05</span>
+      <div>
+        <p class="th-tag">Mouvement &amp; Adrénaline</p>
+        <h2 class="th-title">L'Image en Action</h2>
+        <p class="th-desc">Figer ce qui ne peut l'être — l'adrénaline, la précision et la puissance de l'instant décisif capturé au millième de seconde.</p>
+        <div class="th-bar"></div>
       </div>
-      <div class="theme-count">
-        Médias<strong>6</strong>5 photos · 1 vidéo
-      </div>
+      <div class="th-count">Médias<strong>5</strong>5 photos</div>
     </div>
+    <div class="mg">
 
-    <div class="media-grid">
-
-      <!-- 📸 PHOTO 1 — Grande verticale gauche
-           → src="photos/art/peinture.jpg" -->
-      <div class="media-item i1">
-        <img src="https://picsum.photos/seed/saitawan-ar1/600/900" alt="Art — photo 1">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo1.jpg — large haut gauche -->
+      <div class="mi i1" data-slot="📸 photo1.jpg">
+        <img src="photos/l'image action/photo1.jpg" alt="L'Image en Action — photo 1"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo1.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 2 — Haut milieu
-           → src="photos/art/abstrait.jpg" -->
-      <div class="media-item i2">
-        <img src="https://picsum.photos/seed/saitawan-ar2/600/400" alt="Art abstrait — photo 2">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo2.jpg -->
+      <div class="mi i2" data-slot="📸 photo2.jpg">
+        <img src="photos/l'image action/photo2.jpg" alt="L'Image en Action — photo 2"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo2.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 3 — Haut droite (large)
-           → src="photos/art/fresque.jpg" -->
-      <div class="media-item i3">
-        <img src="https://picsum.photos/seed/saitawan-ar3/1000/400" alt="Fresque — photo 3">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo3.jpg -->
+      <div class="mi i3" data-slot="📸 photo3.jpg">
+        <img src="photos/l'image action/photo3.jpg" alt="L'Image en Action — photo 3"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo3.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 4 — Milieu (large)
-           → src="photos/art/sculpture.jpg" -->
-      <div class="media-item i4">
-        <img src="https://picsum.photos/seed/saitawan-ar4/900/400" alt="Sculpture — photo 4">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo4.jpg -->
+      <div class="mi i4" data-slot="📸 photo4.jpg">
+        <img src="photos/l'image action/photo4.jpg" alt="L'Image en Action — photo 4"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo4.jpg</span></div>
       </div>
 
-      <!-- 📸 PHOTO 5 — Milieu droite
-           → src="photos/art/installation.jpg" -->
-      <div class="media-item i5">
-        <img src="https://picsum.photos/seed/saitawan-ar5/600/400" alt="Installation — photo 5">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 🎬 VIDÉO 1 — Bandeau bas full width
-           → <video src="videos/art/performance.mp4" controls ...></video> -->
-      <div class="media-item i6">
-        <div class="video-wrap" style="min-height: 180px;">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Performance · Making-of · Exposition
-              <span class="vph-code">&lt;video src="art.mp4"&gt;</span>
-            </div>
-          </div>
-        </div>
+      <!-- photo5.jpg -->
+      <div class="mi i5" data-slot="📸 photo5.jpg">
+        <img src="photos/l'image action/photo5.jpg" alt="L'Image en Action — photo 5"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo5.jpg</span></div>
       </div>
 
     </div>
   </section>
 
-  <!-- =============================================
-       THÈME 6 — VOYAGE & CULTURE
-  ============================================== -->
-  <div class="divider"></div>
-  <section class="theme-section" id="t6">
-    <div class="theme-header">
-      <span class="theme-num">06</span>
-      <div class="theme-info">
-        <p class="theme-tag">Voyage &amp; Culture</p>
-        <h2 class="theme-title">Explorations</h2>
-        <p class="theme-desc">Marchés colorés, ruelles mystérieuses, temples anciens et plages oubliées — chaque destination révèle une âme unique.</p>
-        <div class="theme-bar"></div>
+  <!-- ══════════════════════════════════════════════
+       T6 — NATURE MOUVEMENT
+       Photos  → photos/nature-mouvement/photo1.jpg … photo4.jpg
+       Vidéo   → videos/nature mouvement/video1.mp4
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t6">
+    <div class="th">
+      <span class="th-num">06</span>
+      <div>
+        <p class="th-tag">Nature &amp; Vie sauvage</p>
+        <h2 class="th-title">Nature Mouvement</h2>
+        <p class="th-desc">La nature en perpétuel changement — vent dans les branches, cours d'eau vifs et vie sauvage captés en plein élan.</p>
+        <div class="th-bar"></div>
       </div>
-      <div class="theme-count">
-        Médias<strong>6</strong>4 photos · 2 vidéos
-      </div>
+      <div class="th-count">Médias<strong>5</strong>4 photos · 1 vidéo</div>
     </div>
+    <div class="mg">
 
-    <div class="media-grid">
-
-      <!-- 📸 PHOTO 1 — Grande gauche
-           → src="photos/voyage/ville.jpg" -->
-      <div class="media-item i1">
-        <img src="https://picsum.photos/seed/saitawan-v1/1000/700" alt="Ville — photo 1">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 📸 PHOTO 2 — Haut milieu droite
-           → src="photos/voyage/rue.jpg" -->
-      <div class="media-item i2">
-        <img src="https://picsum.photos/seed/saitawan-v2/600/700" alt="Rue — photo 2">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 📸 PHOTO 3 — Haut droite
-           → src="photos/voyage/marche.jpg" -->
-      <div class="media-item i3">
-        <img src="https://picsum.photos/seed/saitawan-v3/600/700" alt="Marché — photo 3">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 🎬 VIDÉO 1 — Bas gauche
-           → <video src="videos/voyage/travel.mp4" controls ...></video> -->
-      <div class="media-item i4">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Travel vlog · Découverte
-              <span class="vph-code">&lt;video src="voyage1.mp4"&gt;</span>
-            </div>
+      <!-- VIDEO — video1.mp4 (large haut gauche) -->
+      <div class="mi i1" data-slot="">
+        <video preload="metadata" controls
+               poster="photos/nature-mouvement/photo1.jpg">
+          <source src="videos/nature mouvement/video1.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtext">
+            <strong>🎬 Votre vidéo</strong>
+            Ajoutez le fichier :<span class="vcode">videos/nature mouvement/video1.mp4</span>
           </div>
         </div>
       </div>
 
-      <!-- 📸 PHOTO 4 — Bas milieu
-           → src="photos/voyage/nourriture.jpg" -->
-      <div class="media-item i5">
-        <img src="https://picsum.photos/seed/saitawan-v4/600/500" alt="Culture locale — photo 4">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
+      <!-- photo1.jpg -->
+      <div class="mi i2" data-slot="📸 photo1.jpg">
+        <img src="photos/nature-mouvement/photo1.jpg" alt="Nature Mouvement — photo 1"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo1.jpg</span></div>
       </div>
 
-      <!-- 🎬 VIDÉO 2 — Bas droite large
-           → <video src="videos/voyage/coucher-soleil.mp4" controls ...></video> -->
-      <div class="media-item i6">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Coucher de soleil · Panorama
-              <span class="vph-code">&lt;video src="voyage2.mp4"&gt;</span>
-            </div>
+      <!-- photo2.jpg -->
+      <div class="mi i3" data-slot="📸 photo2.jpg">
+        <img src="photos/nature-mouvement/photo2.jpg" alt="Nature Mouvement — photo 2"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo2.jpg</span></div>
+      </div>
+
+      <!-- photo3.jpg -->
+      <div class="mi i4" data-slot="📸 photo3.jpg">
+        <img src="photos/nature-mouvement/photo3.jpg" alt="Nature Mouvement — photo 3"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo3.jpg</span></div>
+      </div>
+
+      <!-- photo4.jpg -->
+      <div class="mi i5" data-slot="📸 photo4.jpg">
+        <img src="photos/nature-mouvement/photo4.jpg" alt="Nature Mouvement — photo 4"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo4.jpg</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       T7 — VITESSE
+       Photos  → photos/vitesse/photo1.jpg … photo3.jpg
+       Vidéo   → videos/vitesse/video1.mp4
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t7">
+    <div class="th">
+      <span class="th-num">07</span>
+      <div>
+        <p class="th-tag">Rapidité &amp; Sensation</p>
+        <h2 class="th-title">Vitesse</h2>
+        <p class="th-desc">Quand tout va trop vite pour l'œil nu — la vitesse transformée en art, chaque image un défi lancé à la physique.</p>
+        <div class="th-bar"></div>
+      </div>
+      <div class="th-count">Médias<strong>4</strong>3 photos · 1 vidéo</div>
+    </div>
+    <div class="mg">
+
+      <!-- photo1.jpg — tall gauche -->
+      <div class="mi i1" data-slot="📸 photo1.jpg">
+        <img src="photos/vitesse/photo1.jpg" alt="Vitesse — photo 1"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo1.jpg</span></div>
+      </div>
+
+      <!-- photo2.jpg — large haut droite -->
+      <div class="mi i2" data-slot="📸 photo2.jpg">
+        <img src="photos/vitesse/photo2.jpg" alt="Vitesse — photo 2"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo2.jpg</span></div>
+      </div>
+
+      <!-- photo3.jpg -->
+      <div class="mi i3" data-slot="📸 photo3.jpg">
+        <img src="photos/vitesse/photo3.jpg" alt="Vitesse — photo 3"
+             onerror="this.style.display='none'">
+        <div class="ov"><span class="ov-label">📸 photo3.jpg</span></div>
+      </div>
+
+      <!-- VIDEO — video1.mp4 -->
+      <div class="mi i4" data-slot="">
+        <video preload="metadata" controls
+               poster="photos/vitesse/photo1.jpg">
+          <source src="videos/vitesse/video1.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtext">
+            <strong>🎬 Votre vidéo</strong>
+            Ajoutez le fichier :<span class="vcode">videos/vitesse/video1.mp4</span>
           </div>
         </div>
       </div>
@@ -1333,187 +994,115 @@
     </div>
   </section>
 
-  <!-- =============================================
-       THÈME 7 — ÉVÉNEMENTS & CÉLÉBRATIONS
-  ============================================== -->
-  <div class="divider"></div>
-  <section class="theme-section" id="t7">
-    <div class="theme-header">
-      <span class="theme-num">07</span>
-      <div class="theme-info">
-        <p class="theme-tag">Événements &amp; Célébrations</p>
-        <h2 class="theme-title">Moments</h2>
-        <p class="theme-desc">Mariages, concerts, galas, fêtes — les émotions les plus intenses se vivent ensemble. Chaque moment mérite d'être éternel.</p>
-        <div class="theme-bar"></div>
-      </div>
-      <div class="theme-count">
-        Médias<strong>4</strong>3 photos · 1 vidéo
-      </div>
-    </div>
-
-    <div class="media-grid">
-
-      <!-- 📸 PHOTO 1 — Haut gauche
-           → src="photos/evenements/fete.jpg" -->
-      <div class="media-item i1">
-        <img src="https://picsum.photos/seed/saitawan-e1/700/600" alt="Fête — photo 1">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 📸 PHOTO 2 — Haut droite large
-           → src="photos/evenements/concert.jpg" -->
-      <div class="media-item i2">
-        <img src="https://picsum.photos/seed/saitawan-e2/1200/600" alt="Concert — photo 2">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-      <!-- 🎬 VIDÉO 1 — Bas gauche large
-           → <video src="videos/evenements/mariage.mp4" controls ...></video> -->
-      <div class="media-item i3">
-        <div class="video-wrap">
-          <div class="video-ph">
-            <div class="vph-btn">▶</div>
-            <div class="vph-text">
-              <strong>🎬 Votre vidéo ici</strong>
-              Mariage · Gala · Soirée
-              <span class="vph-code">&lt;video src="evenement.mp4"&gt;</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 📸 PHOTO 3 — Bas droite
-           → src="photos/evenements/ceremonie.jpg" -->
-      <div class="media-item i4">
-        <img src="https://picsum.photos/seed/saitawan-e3/700/600" alt="Cérémonie — photo 3">
-        <div class="photo-overlay">
-          <span class="replace-label">📸 Remplacez par votre photo</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- =============================================
+  <!-- ══════════════════════════════════════════════
        FOOTER
-  ============================================== -->
-  <div class="divider"></div>
+  ═══════════════════════════════════════════════ -->
+  <div class="sep"></div>
   <footer>
-    <p class="footer-label">Contactez-moi</p>
-    <h2 class="footer-name">Saitawan</h2>
-    <p class="footer-sub">
-      Disponible pour des projets photos et vidéos.<br>
+    <p class="ft-label">Contactez-moi</p>
+    <h2 class="ft-name">Saitawan</h2>
+    <p class="ft-sub">
+      Disponible pour des projets photo &amp; vidéo.<br>
       Parlons de votre prochaine création.
     </p>
-    <a href="mailto:votre@email.com" class="footer-cta">
-      ✉&nbsp; votre@email.com
-    </a>
-
-    <div class="footer-bottom">
+    <!-- Remplacez l'adresse email ci-dessous -->
+    <a href="mailto:votre@email.com" class="ft-btn">✉&nbsp; votre@email.com</a>
+    <div class="ft-bottom">
       <span>© 2024 Saitawan — Tous droits réservés</span>
       <span>Portfolio · Photographie &amp; Vidéo</span>
     </div>
   </footer>
 
-  <!-- =============================================
+  <!-- ══════════════════════════════════════════════
        JAVASCRIPT
-  ============================================== -->
+  ═══════════════════════════════════════════════ -->
   <script>
-    // ── Curseur personnalisé ──────────────────────
-    const cur  = document.getElementById('cur');
+    /* ── Curseur ─────────────────────────────────── */
+    const cur = document.getElementById('cur');
     const curR = document.getElementById('curR');
     let mx = 0, my = 0, rx = 0, ry = 0;
 
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
-      cur.style.transform  = `translate(${mx - 5}px, ${my - 5}px)`;
+      cur.style.transform = `translate(${mx - 5}px,${my - 5}px)`;
     });
-
-    // Le ring suit avec lerp
     (function lerp() {
-      rx += (mx - rx) * 0.1;
-      ry += (my - ry) * 0.1;
-      curR.style.transform = `translate(${rx - 19}px, ${ry - 19}px)`;
+      rx += (mx - rx) * .1; ry += (my - ry) * .1;
+      curR.style.transform = `translate(${rx - 19}px,${ry - 19}px)`;
       requestAnimationFrame(lerp);
     })();
 
-    // Expand au survol des éléments interactifs
-    document.querySelectorAll('a, button, .media-item, .dot, .theme-pill').forEach(el => {
-      el.addEventListener('mouseenter', () => { cur.classList.add('expand'); curR.classList.add('expand'); });
-      el.addEventListener('mouseleave', () => { cur.classList.remove('expand'); curR.classList.remove('expand'); });
+    document.querySelectorAll('a,button,.mi,.dot,.pill').forEach(el => {
+      el.addEventListener('mouseenter', () => { cur.classList.add('big'); curR.classList.add('big'); });
+      el.addEventListener('mouseleave', () => { cur.classList.remove('big'); curR.classList.remove('big'); });
     });
 
-    // ── Navigation dots latérale ──────────────────
+    /* ── Dots latéraux ───────────────────────────── */
     const sections = ['hero','t1','t2','t3','t4','t5','t6','t7'];
     const dots = document.querySelectorAll('.dot');
 
-    dots.forEach(d => {
-      d.addEventListener('click', () => {
-        const target = document.querySelector(d.dataset.href);
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
+    dots.forEach(d => d.addEventListener('click', () => {
+      document.querySelector(d.dataset.href)?.scrollIntoView({ behavior: 'smooth' });
+    }));
 
-    const setActiveDot = (id) => {
-      dots.forEach((d, i) => d.classList.toggle('active', sections[i] === id));
-    };
-
-    // ── Intersection Observer (animations + dots) ─
-    const itemObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const items = entry.target.querySelectorAll('.media-item');
-          items.forEach((item, i) => {
-            setTimeout(() => item.classList.add('show'), i * 90);
-          });
-        }
+    /* ── IntersectionObserver : animations + dots ── */
+    const ioItems = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.mi').forEach((m, i) =>
+          setTimeout(() => m.classList.add('show'), i * 85));
       });
-    }, { threshold: 0.08 });
+    }, { threshold: .07 });
 
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) setActiveDot(entry.target.id);
+    const ioSec = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        dots.forEach((d, i) => d.classList.toggle('on', sections[i] === e.target.id));
       });
-    }, { threshold: 0.3 });
+    }, { threshold: .3 });
 
     sections.forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
-      sectionObserver.observe(el);
-      if (id !== 'hero') itemObserver.observe(el);
+      ioSec.observe(el);
+      if (id !== 'hero') ioItems.observe(el);
     });
 
-    // ── Lightbox ──────────────────────────────────
-    const lb     = document.getElementById('lightbox');
-    const lbImg  = document.getElementById('lbImg');
-    const lbClose = document.getElementById('lbClose');
+    /* ── Vidéos : affiche la vidéo quand elle charge ─ */
+    document.querySelectorAll('.mi video').forEach(v => {
+      const mi = v.closest('.mi');
+      v.addEventListener('canplay', () => mi.classList.add('vid-ok'), { once: true });
 
-    document.querySelectorAll('.media-item img').forEach(img => {
+      // Tente de charger
+      if (v.querySelector('source')?.src) {
+        v.load();
+      }
+    });
+
+    /* ── Lightbox (photos seulement) ────────────── */
+    const lb    = document.getElementById('lb');
+    const lbImg = document.getElementById('lb-img');
+
+    document.querySelectorAll('.mi img').forEach(img => {
+      img.style.cursor = 'zoom-in';
       img.addEventListener('click', () => {
         lbImg.src = img.src;
         lb.classList.add('open');
       });
     });
 
-    lbClose.addEventListener('click', () => lb.classList.remove('open'));
+    document.getElementById('lb-close').addEventListener('click', () => lb.classList.remove('open'));
     lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') lb.classList.remove('open');
-    });
-
-    // ── Parallax léger sur le Hero ────────────────
+    /* ── Parallax Hero ──────────────────────────── */
     const orbs = document.querySelectorAll('.orb');
     document.addEventListener('mousemove', e => {
-      const cx = e.clientX / window.innerWidth  - 0.5;
-      const cy = e.clientY / window.innerHeight - 0.5;
+      const cx = e.clientX / innerWidth  - .5;
+      const cy = e.clientY / innerHeight - .5;
       orbs.forEach((o, i) => {
-        const speed = (i + 1) * 18;
-        o.style.transform = `translate(${cx * speed}px, ${cy * speed}px)`;
+        const s = (i + 1) * 20;
+        o.style.transform = `translate(${cx * s}px,${cy * s}px)`;
       });
     });
   </script>
