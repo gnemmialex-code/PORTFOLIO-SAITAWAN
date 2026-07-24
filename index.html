@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Saitawan — Portfolio</title>
+  <title>Visual Reve — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -30,19 +30,7 @@
     }
 
     html { scroll-behavior: smooth; overflow-x: hidden; }
-    body  { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; cursor: none; }
-
-    /* ============================================
-       CURSEUR
-    ============================================ */
-    .cur, .cur-ring {
-      position: fixed; top: 0; left: 0; border-radius: 50%;
-      pointer-events: none; z-index: 9999; mix-blend-mode: difference;
-    }
-    .cur      { width: 10px; height: 10px; background: white; transition: transform .12s ease; }
-    .cur-ring { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.4); transition: transform .32s ease, width .25s, height .25s; }
-    .cur.big      { transform: scale(3.5); }
-    .cur-ring.big { width: 56px; height: 56px; }
+    body  { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
 
     /* ============================================
        NAV
@@ -261,8 +249,8 @@
       gap: var(--gap);
     }
 
-    /* Nature Mouvement : seulement 5 items → 3 colonnes */
-    #t6 .mg { grid-template-columns: repeat(3, 1fr); }
+    /* Nature Mouvement : seulement 4 photos → 4 colonnes */
+    #t6 .mg { grid-template-columns: repeat(4, 1fr); }
 
     /* Item portrait */
     .mi {
@@ -306,61 +294,47 @@
     /* ★ Zoom au survol — légèrement agrandi */
     .mi:hover img { transform: scale(1.1); }
 
-    /* Overlay survol */
+    /* Overlay survol (trait de couleur uniquement, sans texte) */
     .ov {
       position: absolute; inset: 0; z-index: 2;
       background: linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 50%);
       opacity: 0; transition: opacity .4s ease;
       display: flex; flex-direction: column;
       justify-content: flex-end; padding: 1rem;
+      pointer-events: none;
     }
     .mi:hover .ov { opacity: 1; }
-
-    .ov-name {
-      font-size: .6rem; letter-spacing: .07em; text-transform: uppercase;
-      color: rgba(255,255,255,.7);
-      transform: translateY(6px);
-      transition: transform .35s ease;
-    }
-    .mi:hover .ov-name { transform: translateY(0); }
 
     /* Trait de couleur en bas au survol */
     .ov-line {
       width: 0; height: 2px; background: var(--ac, white);
-      border-radius: 2px; margin-top: .4rem;
+      border-radius: 2px;
       transition: width .4s ease .1s;
     }
     .mi:hover .ov-line { width: 100%; }
 
-    /* Vidéo */
+    /* Vidéo — visible et lisible par défaut */
     .mi video {
-      position: relative; z-index: 1;
-      width: 100%; height: 100%; object-fit: cover; display: none;
-      transition: transform .75s cubic-bezier(.25,.46,.45,.94);
+      position: relative; z-index: 3;
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      background: #000;
     }
-    .mi:hover video { transform: scale(1.06); }
-    .mi.vid-ok video  { display: block; }
-    .mi.vid-ok .vph   { display: none !important; }
 
-    /* Placeholder vidéo */
+    /* Placeholder vidéo — affiché seulement si la vidéo ne charge pas */
     .vph {
       position: absolute; inset: 0; z-index: 1;
-      display: flex; flex-direction: column;
+      display: none;
+      flex-direction: column;
       align-items: center; justify-content: center;
       gap: .9rem; text-align: center; padding: 1.5rem;
     }
+    .mi.vid-error video { display: none; }
+    .mi.vid-error .vph  { display: flex; }
     .vbtn {
       width: 52px; height: 52px; border-radius: 50%;
       background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.18);
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem; color: rgba(255,255,255,.55); flex-shrink: 0;
-      animation: pulse 2.5s ease-in-out infinite;
-      transition: transform .3s, background .3s;
-    }
-    .mi:hover .vbtn { transform: scale(1.1); background: rgba(255,255,255,.1); }
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 0   rgba(255,255,255,.07); }
-      50%      { box-shadow: 0 0 0 12px rgba(255,255,255,0); }
     }
     .vtxt { font-size: .7rem; color: rgba(255,255,255,.3); line-height: 1.5; }
     .vtxt strong { display: block; color: rgba(255,255,255,.5); margin-bottom: .2rem; }
@@ -426,9 +400,6 @@
 </head>
 <body>
 
-  <div class="cur"      id="cur"></div>
-  <div class="cur-ring" id="curR"></div>
-
   <!-- Lightbox -->
   <div id="lb">
     <button id="lb-close">✕</button>
@@ -439,27 +410,27 @@
        NAV
   ═══════════════════════════════════ -->
   <nav>
-    <a href="#hero" class="logo">Saitawan</a>
+    <a href="#hero" class="logo">Visuel Reve</a>
     <ul class="nav-links">
       <li><a href="#t1">Hivernal</a></li>
-      <li><a href="#t2">Mélodie</a></li>
-      <li><a href="#t3">Interview</a></li>
-      <li><a href="#t4">Lac</a></li>
-      <li><a href="#t5">Action</a></li>
       <li><a href="#t6">Nature</a></li>
+      <li><a href="#t2">Mélodie</a></li>
+      <li><a href="#t4">Lac</a></li>
+      <li><a href="#t3">Interview</a></li>
       <li><a href="#t7">Vitesse</a></li>
+      <li><a href="#t5">Action</a></li>
     </ul>
   </nav>
 
   <div class="side-nav" id="sideNav">
     <div class="dot on" data-href="#hero" data-label="Accueil"></div>
     <div class="dot" data-href="#t1" data-label="01 · Ambiance Hivernal"></div>
-    <div class="dot" data-href="#t2" data-label="02 · Douce Mélodie"></div>
-    <div class="dot" data-href="#t3" data-label="03 · Interview"></div>
+    <div class="dot" data-href="#t6" data-label="02 · Nature Mouvement"></div>
+    <div class="dot" data-href="#t2" data-label="03 · Douce Mélodie"></div>
     <div class="dot" data-href="#t4" data-label="04 · Lac &amp; Mouvement"></div>
-    <div class="dot" data-href="#t5" data-label="05 · L'Image en Action"></div>
-    <div class="dot" data-href="#t6" data-label="06 · Nature Mouvement"></div>
-    <div class="dot" data-href="#t7" data-label="07 · Vitesse"></div>
+    <div class="dot" data-href="#t3" data-label="05 · Interview"></div>
+    <div class="dot" data-href="#t7" data-label="06 · Vitesse"></div>
+    <div class="dot" data-href="#t5" data-label="07 · L'Image en Action"></div>
   </div>
 
   <!-- ══════════════════════════════════
@@ -467,24 +438,23 @@
   ═══════════════════════════════════ -->
   <section id="hero">
     <!-- ★ Photo de fond verticale -->
-    <img src="photos/perso/IMG_3620.JPG" class="hero-img" alt="Saitawan">
+    <img src="photos/perso/IMG_3620.JPG" class="hero-img" alt="Visual Reve">
     <div class="hero-veil"></div>
 
     <div class="hero-inner">
-      <p class="hero-eye">Portfolio · Photographie &amp; Vidéo · 2024</p>
-      <h1 class="hero-title">Saitawan<em>Visuals</em></h1>
+      <p class="hero-eye">Portfolio · Photographie &amp; Vidéo · 2026</p>
+      <h1 class="hero-title">Visuel<em>Reve</em></h1>
       <p class="hero-sub">
-        Sept regards sur le monde — de la douceur hivernale à la puissance de la vitesse,
-        une vision photographique unique.
+        Photographe de plateau et de tournage, je capture l'envers du décor — l'ambiance backstage, les coulisses (behind the scenes). Bienvenue dans mon univers. Tout au long de mes aventures vous découvrirez mes projets. À travers mes images, qu'elles soient fixes ou en mouvement, j'aime créer des ambiances et raconter des histoires. Bonne lecture à vous !
       </p>
       <div class="pills">
         <a href="#t1" class="pill">Ambiance Hivernal</a>
-        <a href="#t2" class="pill">Douce Mélodie</a>
-        <a href="#t3" class="pill">Interview</a>
-        <a href="#t4" class="pill">Lac &amp; Mouvement</a>
-        <a href="#t5" class="pill">L'Image en Action</a>
         <a href="#t6" class="pill">Nature Mouvement</a>
+        <a href="#t2" class="pill">Douce Mélodie</a>
+        <a href="#t4" class="pill">Lac &amp; Mouvement</a>
+        <a href="#t3" class="pill">Interview</a>
         <a href="#t7" class="pill">Vitesse</a>
+        <a href="#t5" class="pill">L'Image en Action</a>
       </div>
     </div>
 
@@ -495,8 +465,8 @@
   </section>
 
   <!-- ══════════════════════════════════════════════════
-       T1 — AMBIANCE HIVERNAL
-       8 photos + 1 vidéo en dernier · grille 4 col portrait
+       01 — AMBIANCE HIVERNAL
+       8 photos + 1 vidéo en premier · grille 4 col portrait
   ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t1">
@@ -505,7 +475,7 @@
       <div>
         <p class="th-tag">Hiver &amp; Atmosphère</p>
         <h2 class="th-title"><span class="th-title-inner">Ambiance Hivernal</span></h2>
-        <p class="th-desc">La magie silencieuse de l'hiver — givre cristallisé, brumes matinales et paysages immaculés.</p>
+        <p class="th-desc">Dans cette série je cherche à capturer l'ambiance hivernale de la glace. Shooting avec 000iceberg en pleine immersion sur un lac gelé. Une expérience dangereuse mais pleine de courage et d'aventure.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
@@ -513,7 +483,7 @@
     <div class="mg">
       <!-- VIDÉO EN PREMIER -->
       <div class="mi" data-slot="" style="--ac:var(--t1)">
-        <video preload="metadata" controls poster="photos/ambiance hivernal/IMG_1135 2.jpg">
+        <video preload="metadata" controls playsinline poster="photos/ambiance hivernal/IMG_1135 2.jpg">
           <source src="videos/ambiance-hivernal/9c60afe6-1fed-4605-b651-d160551a5062 2.MP4" type="video/mp4">
         </video>
         <div class="vph">
@@ -523,51 +493,87 @@
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1135 2.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1135 2.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1207.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1207.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1260.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1260.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1273.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1273.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1281.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1281.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1413.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1413.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1442.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1442.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t1)">
         <img src="photos/ambiance hivernal/IMG_1592.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1592.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════════
-       T2 — DOUCE MÉLODIE
-       8 photos + 1 vidéo en dernier
+       02 — NATURE MOUVEMENT
+       4 photos · grille 4 colonnes (vidéo supprimée)
+  ═════════════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t6">
+    <div class="th">
+      <span class="th-num">02</span>
+      <div>
+        <p class="th-tag">Nature &amp; Vie sauvage</p>
+        <h2 class="th-title"><span class="th-title-inner">Nature Mouvement</span></h2>
+        <p class="th-desc">Dans cette série je cherche à montrer que même si la nature est fixe, elle peut être en mouvement à travers l'objectif d'un appareil photo.</p>
+        <div class="th-bar"></div>
+      </div>
+      <div class="th-count">Médias<strong>4</strong>4 photos</div>
+    </div>
+    <div class="mg">
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4203.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4210.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4465.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t6)">
+        <img src="photos/nature-mouvement/IMG_4487-2.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       03 — DOUCE MÉLODIE
+       8 photos + 1 vidéo en premier
   ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t2">
     <div class="th">
-      <span class="th-num">02</span>
+      <span class="th-num">03</span>
       <div>
         <p class="th-tag">Musique &amp; Émotion</p>
         <h2 class="th-title"><span class="th-title-inner">Douce Mélodie</span></h2>
-        <p class="th-desc">Là où la photographie rencontre la musique — des images rythmées par la douceur et la poésie du quotidien.</p>
+        <p class="th-desc">Dans cette série j'ai accompagné Zoren_08. Je voulais partager les émotions de la douce mélodie dans un studio de musique.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
@@ -575,7 +581,7 @@
     <div class="mg">
       <!-- VIDÉO EN PREMIER -->
       <div class="mi" data-slot="" style="--ac:var(--t2)">
-        <video preload="metadata" controls poster="photos/douce-melodie/IMG_2457.jpg">
+        <video preload="metadata" controls playsinline poster="photos/douce-melodie/IMG_2457.jpg">
           <source src="videos/douce-melodie/7SEVEN-2.mp4" type="video/mp4">
         </video>
         <div class="vph">
@@ -585,100 +591,42 @@
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2457.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2457.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2493.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2493.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2498.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2498.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2590.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2590.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2636.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2636.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2651.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2651.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2659.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2659.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t2)">
         <img src="photos/douce-melodie/IMG_2677.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2677.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════════
-       T3 — INTERVIEW
-       7 photos + 1 vidéo en dernier
-  ═════════════════════════════════════════════════════ -->
-  <div class="sep"></div>
-  <section class="ts" id="t3">
-    <div class="th">
-      <span class="th-num">03</span>
-      <div>
-        <p class="th-tag">Dialogue &amp; Vérité</p>
-        <h2 class="th-title"><span class="th-title-inner">Interview</span></h2>
-        <p class="th-desc">Capturer l'instant de vérité — portraits en situation, regards sincères et la puissance du dialogue figé en image.</p>
-        <div class="th-bar"></div>
-      </div>
-      <div class="th-count">Médias<strong>8</strong>7 photos · 1 vidéo</div>
-    </div>
-    <div class="mg">
-      <!-- VIDÉO EN PREMIER -->
-      <div class="mi" data-slot="" style="--ac:var(--t3)">
-        <video preload="metadata" controls poster="photos/interview/_RUV5521.jpg">
-          <source src="videos/interview/interview V2 chez engèle.mp4" type="video/mp4">
-        </video>
-        <div class="vph">
-          <div class="vbtn">▶</div>
-          <div class="vtxt"><strong>🎬 Interview</strong><span class="vcode">interview/interview V2.mp4</span></div>
-        </div>
-      </div>
-      <div class="mi" style="--ac:var(--t3)">
-        <img src="photos/interview/_RUV5521.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">_RUV5521.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t3)">
-        <img src="photos/interview/_RUV5523.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">_RUV5523.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t3)">
-        <img src="photos/interview/_RUV5525.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">_RUV5525.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t3)">
-        <img src="photos/interview/_RUV5528.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">_RUV5528.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t3)">
-        <img src="photos/interview/_RUV5532.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">_RUV5532.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t3)">
-        <img src="photos/interview/_RUV5535.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">_RUV5535.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t3)">
-        <img src="photos/interview/_RUV5539.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">_RUV5539.jpg</span><div class="ov-line"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════
-       T4 — LAC & MOUVEMENT
-       8 photos + 1 vidéo en dernier
+       04 — LAC & MOUVEMENT
+       8 photos + 1 vidéo en premier
   ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t4">
@@ -687,7 +635,7 @@
       <div>
         <p class="th-tag">Eau &amp; Réflexion</p>
         <h2 class="th-title"><span class="th-title-inner">Lac &amp; Mouvement</span></h2>
-        <p class="th-desc">L'eau comme miroir du monde — reflets, ondulations et la beauté hypnotique de la nature en perpétuel mouvement.</p>
+        <p class="th-desc">Dans cette série j'ai accompagné une patineuse artistique. Je cherche à montrer un lac en mouvement et une expérience pleine d'aventure et de folie.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
@@ -695,7 +643,7 @@
     <div class="mg">
       <!-- VIDÉO EN PREMIER -->
       <div class="mi" data-slot="" style="--ac:var(--t4)">
-        <video preload="metadata" controls poster="photos/lac mouvement/IMG_1736.jpg">
+        <video preload="metadata" controls playsinline poster="photos/lac mouvement/IMG_1736.jpg">
           <source src="videos/lac mouvement/ARTISTIQUE .mp4" type="video/mp4">
         </video>
         <div class="vph">
@@ -705,51 +653,167 @@
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1736.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1736.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1833.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1833.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1872.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1872.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1906.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1906.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1966.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1966.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_1998.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1998.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_2016.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2016.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t4)">
         <img src="photos/lac mouvement/IMG_2032.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_2032.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════════
-       T5 — L'IMAGE EN ACTION
-       8 photos + 1 vidéo en dernier (faucheuse exemple efe.MOV)
+       05 — INTERVIEW
+       7 photos + 1 vidéo en premier
+  ═════════════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t3">
+    <div class="th">
+      <span class="th-num">05</span>
+      <div>
+        <p class="th-tag">Dialogue &amp; Vérité</p>
+        <h2 class="th-title"><span class="th-title-inner">Interview</span></h2>
+        <p class="th-desc">Dans cette série j'ai réalisé des photos et une interview en tant que prestataire pour Progressio. On se retrouve dans la crêperie d'Engèle, un plaisir d'aller à sa rencontre.</p>
+        <div class="th-bar"></div>
+      </div>
+      <div class="th-count">Médias<strong>8</strong>7 photos · 1 vidéo</div>
+    </div>
+    <div class="mg">
+      <!-- VIDÉO EN PREMIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t3)">
+        <video preload="metadata" controls playsinline poster="photos/interview/_RUV5521.jpg">
+          <source src="videos/interview/interview V2 chez engèle.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtxt"><strong>🎬 Interview</strong><span class="vcode">interview/interview V2.mp4</span></div>
+        </div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5521.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5523.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5525.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5528.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5532.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5535.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t3)">
+        <img src="photos/interview/_RUV5539.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       06 — VITESSE
+       7 photos + 1 vidéo en premier
+  ═════════════════════════════════════════════════════ -->
+  <div class="sep"></div>
+  <section class="ts" id="t7">
+    <div class="th">
+      <span class="th-num">06</span>
+      <div>
+        <p class="th-tag">Rapidité &amp; Sensation</p>
+        <h2 class="th-title"><span class="th-title-inner">Vitesse</span></h2>
+        <p class="th-desc">Dans cette série j'ai réalisé un spot publicitaire pour Progressio.</p>
+        <div class="th-bar"></div>
+      </div>
+      <div class="th-count">Médias<strong>8</strong>7 photos · 1 vidéo</div>
+    </div>
+    <div class="mg">
+      <!-- VIDÉO EN PREMIER -->
+      <div class="mi" data-slot="" style="--ac:var(--t7)">
+        <video preload="metadata" controls playsinline poster="photos/vitesse/IMG_1749.jpg">
+          <source src="videos/vitesse/Video by vizion.cars-3.mp4" type="video/mp4">
+        </video>
+        <div class="vph">
+          <div class="vbtn">▶</div>
+          <div class="vtxt"><strong>🎬 Vitesse</strong><span class="vcode">vitesse/Video by vizion.cars-3.mp4</span></div>
+        </div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1749.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1765.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1772.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1791.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1812.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1816.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+      <div class="mi" style="--ac:var(--t7)">
+        <img src="photos/vitesse/IMG_1829.jpg" alt="" onerror="this.style.display='none'">
+        <div class="ov"><div class="ov-line"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+       07 — L'IMAGE EN ACTION
+       8 photos + 1 vidéo en premier
   ═════════════════════════════════════════════════════ -->
   <div class="sep"></div>
   <section class="ts" id="t5">
     <div class="th">
-      <span class="th-num">05</span>
+      <span class="th-num">07</span>
       <div>
         <p class="th-tag">Mouvement &amp; Adrénaline</p>
         <h2 class="th-title"><span class="th-title-inner">L'Image en Action</span></h2>
-        <p class="th-desc">Figer ce qui ne peut l'être — l'adrénaline, la précision et la puissance de l'instant décisif capturé au millième de seconde.</p>
+        <p class="th-desc">Dans cette série j'ai participé à la réalisation d'un court métrage en tant que cadreur pour l'équipe de Zack._prod.</p>
         <div class="th-bar"></div>
       </div>
       <div class="th-count">Médias<strong>9</strong>8 photos · 1 vidéo</div>
@@ -757,7 +821,7 @@
     <div class="mg">
       <!-- VIDÉO EN PREMIER -->
       <div class="mi" data-slot="" style="--ac:var(--t5)">
-        <video preload="metadata" controls poster="photos/l'image action/IMG_0522.jpg">
+        <video preload="metadata" controls playsinline poster="photos/l'image action/IMG_0522.jpg">
           <source src="videos/image action/faucheuse exemple efe.MOV" type="video/mp4">
           <source src="videos/image action/faucheuse exemple efe.MOV" type="video/quicktime">
         </video>
@@ -768,139 +832,35 @@
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0522.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0522.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0525.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0525.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0531.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0531.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0550.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0550.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0558.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0558.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0562.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0562.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0590.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0590.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
       <div class="mi" style="--ac:var(--t5)">
         <img src="photos/l'image action/IMG_0599.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_0599.jpg</span><div class="ov-line"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════
-       T6 — NATURE MOUVEMENT
-       4 photos + 1 vidéo en dernier · grille 3 colonnes
-  ═════════════════════════════════════════════════════ -->
-  <div class="sep"></div>
-  <section class="ts" id="t6">
-    <div class="th">
-      <span class="th-num">06</span>
-      <div>
-        <p class="th-tag">Nature &amp; Vie sauvage</p>
-        <h2 class="th-title"><span class="th-title-inner">Nature Mouvement</span></h2>
-        <p class="th-desc">La nature en perpétuel changement — vent dans les branches, cours d'eau vifs et vie sauvage captés en plein élan.</p>
-        <div class="th-bar"></div>
-      </div>
-      <div class="th-count">Médias<strong>5</strong>4 photos · 1 vidéo</div>
-    </div>
-    <div class="mg">
-      <!-- VIDÉO EN PREMIER -->
-      <div class="mi" data-slot="" style="--ac:var(--t6)">
-        <video preload="metadata" controls poster="photos/nature-mouvement/IMG_4203.jpg">
-          <source src="videos/nature mouvement/v24025gl0000d5h663fog65ust24b05g.MP4" type="video/mp4">
-        </video>
-        <div class="vph">
-          <div class="vbtn">▶</div>
-          <div class="vtxt"><strong>🎬 Nature Mouvement</strong><span class="vcode">nature mouvement/video.MP4</span></div>
-        </div>
-      </div>
-      <div class="mi" style="--ac:var(--t6)">
-        <img src="photos/nature-mouvement/IMG_4203.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_4203.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t6)">
-        <img src="photos/nature-mouvement/IMG_4210.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_4210.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t6)">
-        <img src="photos/nature-mouvement/IMG_4465.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_4465.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t6)">
-        <img src="photos/nature-mouvement/IMG_4487-2.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_4487-2.jpg</span><div class="ov-line"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════
-       T7 — VITESSE
-       7 photos + 1 vidéo en dernier
-  ═════════════════════════════════════════════════════ -->
-  <div class="sep"></div>
-  <section class="ts" id="t7">
-    <div class="th">
-      <span class="th-num">07</span>
-      <div>
-        <p class="th-tag">Rapidité &amp; Sensation</p>
-        <h2 class="th-title"><span class="th-title-inner">Vitesse</span></h2>
-        <p class="th-desc">Quand tout va trop vite pour l'œil nu — la vitesse transformée en art, chaque image un défi lancé à la physique.</p>
-        <div class="th-bar"></div>
-      </div>
-      <div class="th-count">Médias<strong>8</strong>7 photos · 1 vidéo</div>
-    </div>
-    <div class="mg">
-      <!-- VIDÉO EN PREMIER -->
-      <div class="mi" data-slot="" style="--ac:var(--t7)">
-        <video preload="metadata" controls poster="photos/vitesse/IMG_1749.jpg">
-          <source src="videos/vitesse/Video by vizion.cars-3.mp4" type="video/mp4">
-        </video>
-        <div class="vph">
-          <div class="vbtn">▶</div>
-          <div class="vtxt"><strong>🎬 Vitesse</strong><span class="vcode">vitesse/Video by vizion.cars-3.mp4</span></div>
-        </div>
-      </div>
-      <div class="mi" style="--ac:var(--t7)">
-        <img src="photos/vitesse/IMG_1749.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1749.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t7)">
-        <img src="photos/vitesse/IMG_1765.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1765.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t7)">
-        <img src="photos/vitesse/IMG_1772.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1772.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t7)">
-        <img src="photos/vitesse/IMG_1791.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1791.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t7)">
-        <img src="photos/vitesse/IMG_1812.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1812.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t7)">
-        <img src="photos/vitesse/IMG_1816.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1816.jpg</span><div class="ov-line"></div></div>
-      </div>
-      <div class="mi" style="--ac:var(--t7)">
-        <img src="photos/vitesse/IMG_1829.jpg" alt="" onerror="this.style.display='none'">
-        <div class="ov"><span class="ov-name">IMG_1829.jpg</span><div class="ov-line"></div></div>
+        <div class="ov"><div class="ov-line"></div></div>
       </div>
     </div>
   </section>
@@ -911,14 +871,14 @@
   <div class="sep"></div>
   <footer>
     <p class="ft-lbl">Contactez-moi</p>
-    <h2 class="ft-name">Saitawan</h2>
+    <h2 class="ft-name">Visuel Reve</h2>
     <p class="ft-sub">
       Disponible pour des projets photo &amp; vidéo.<br>
       Parlons de votre prochaine création.
     </p>
-    <a href="mailto:votre@email.com" class="ft-btn">✉&nbsp; votre@email.com</a>
+    <a href="mailto:gauthiertheo23@gmail.com" class="ft-btn">✉&nbsp; gauthiertheo23@gmail.com</a>
     <div class="ft-bottom">
-      <span>© 2024 Saitawan — Tous droits réservés</span>
+      <span>© 2026 Visuel Reve — Tous droits réservés</span>
       <span>Portfolio · Photographie &amp; Vidéo</span>
     </div>
   </footer>
@@ -927,26 +887,8 @@
        JAVASCRIPT
   ═══════════════════════════════════ -->
   <script>
-    /* Curseur */
-    const cur  = document.getElementById('cur');
-    const curR = document.getElementById('curR');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cur.style.transform = `translate(${mx - 5}px,${my - 5}px)`;
-    });
-    (function lerp() {
-      rx += (mx - rx) * .1; ry += (my - ry) * .1;
-      curR.style.transform = `translate(${rx - 18}px,${ry - 18}px)`;
-      requestAnimationFrame(lerp);
-    })();
-    document.querySelectorAll('a,button,.mi,.dot,.pill').forEach(el => {
-      el.addEventListener('mouseenter', () => { cur.classList.add('big'); curR.classList.add('big'); });
-      el.addEventListener('mouseleave', () => { cur.classList.remove('big'); curR.classList.remove('big'); });
-    });
-
     /* Dots */
-    const sections = ['hero','t1','t2','t3','t4','t5','t6','t7'];
+    const sections = ['hero','t1','t6','t2','t4','t3','t7','t5'];
     const dots = document.querySelectorAll('.dot');
     dots.forEach(d => d.addEventListener('click', () =>
       document.querySelector(d.dataset.href)?.scrollIntoView({ behavior: 'smooth' })
@@ -979,11 +921,18 @@
       if (id !== 'hero') ioItems.observe(el);
     });
 
-    /* Vidéos : affiche quand chargées */
+    /* Vidéos : affiche le placeholder uniquement si le fichier ne charge pas */
     document.querySelectorAll('.mi video').forEach(v => {
       const mi = v.closest('.mi');
-      v.addEventListener('canplay', () => mi.classList.add('vid-ok'), { once: true });
-      v.load();
+      v.addEventListener('error', () => mi.classList.add('vid-error'));
+      v.querySelectorAll('source').forEach(s =>
+        s.addEventListener('error', () => {
+          /* marque en erreur seulement si aucune source n'a pu être lue */
+          if (v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+            mi.classList.add('vid-error');
+          }
+        })
+      );
     });
 
     /* Lightbox */
